@@ -9,4 +9,7 @@ public interface Specification<T> {
     Specification<T> andNot(Specification<T> other);
     Specification<T> orNot(Specification<T> other);
 
+    //Anoter combinatory operator
+    Specification<T> implies(Specification<T> other);
+
 }

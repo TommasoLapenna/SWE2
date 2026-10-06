@@ -53,6 +53,30 @@ public class PcBuilder implements Subject <BuildEvent> {
         return components.get(componentType);
     }
 
+    public int getComponentNumber(ComponentType componentType) {
+        return components.get(componentType).size();
+    }
+
+
+    public <T extends Component> T getSingleComponent(ComponentType type, Class<T> componentClass)  {
+        List<Component> componentList = components.get(type);
+
+        if (componentList == null || componentList.isEmpty()) {
+            throw new IllegalStateException("No component found for type: " + type);
+        }
+        if (componentList.size() > 1) {
+            throw new IllegalStateException("Expected exactly one component for " + type);
+        }
+
+        Component c = componentList.getFirst();
+        if (!componentClass.isInstance(c)) {
+            throw new ClassCastException(
+                    "Component for " + type + " is " + c.getClass().getSimpleName()
+                            + ", expected " + componentClass.getSimpleName());
+        }
+        return componentClass.cast(c);
+    }
+
     @Override
     public void attach(Observer<BuildEvent> o) {
         observers.add(o);

@@ -1,29 +1,23 @@
 package build;
 
 import build.rule.*;
+import model.attribute.ComponentType;
 import observer.Observer;
 import specification.Specification;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompatibilityChecker implements Observer<BuildEvent> {
     private final PcBuilder build;
-    private List<BuildRule> rules;
+    private List<BuildRule> rules = new ArrayList<>();
 
     public CompatibilityChecker(PcBuilder build, List<BuildRule> rules) {
         this.build = build;
-        this.rules = rules;
-    }
-
-    public List<BuildRule> rules() {
-        return List.of(
-                new BuildRule(
-                        new SocketMatchSpecification().and(new VoltageMatchSpecification()),
-                        Severity.ERROR,
-                        "CPU socket and motherboard voltage must be compatible",
-                        List.of()
-                )
+        //this.rules = rules;
+        rules.add(
+          new BuildRule(Specs.atMost(ComponentType.CPU,1), )
         );
     }
 
