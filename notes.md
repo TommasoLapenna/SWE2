@@ -16,7 +16,7 @@ pc-configurator/
 │   │   ├── ComputerBuilder.java
 │   │   └── PresetDirector.java        # "Gaming PC", "Office PC" recipes
 │   │
-│   ├── catalog/                      # Factory + Singleton
+│   ├── catalog/                      # factory + Singleton
 │   │   ├── ComponentFactory.java      # or per-type factories
 │   │   ├── ComponentCatalog.java      # Singleton, holds all available parts
 │   │   └── CatalogLoader.java         # Adapter, if loading from JSON/CSV

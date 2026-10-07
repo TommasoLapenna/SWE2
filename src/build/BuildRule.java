@@ -1,14 +1,25 @@
 package build;
 
 import build.rule.Severity;
-import model.component.Component;
+import model.attribute.ComponentType;
 import specification.Specification;
+import java.util.Set;
 
-import java.util.List;
+public record BuildRule (
+                            int id,
+                            String name,
+                            Specification<PcBuilder> specification,
+                            Severity severity,
+                            String message,
+                            Set<ComponentType> involvedComponents
+    ) {
 
-public record BuildRule ( Specification<PcBuilder> specification,
-                          Severity severity,
-                          String message,
-                          List<Component> InvolvedComponents) {
+    boolean evaluate(PcBuilder build) {
+        return specification().isSatisfiedBy(build);
+    }
+
+    public boolean isSatisfiedBy(PcBuilder build) {
+        return specification().isSatisfiedBy(build);
+    }
 
 }

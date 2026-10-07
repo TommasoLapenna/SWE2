@@ -57,7 +57,6 @@ public class PcBuilder implements Subject <BuildEvent> {
         return components.get(componentType).size();
     }
 
-
     public <T extends Component> T getSingleComponent(ComponentType type, Class<T> componentClass)  {
         List<Component> componentList = components.get(type);
 
@@ -75,6 +74,10 @@ public class PcBuilder implements Subject <BuildEvent> {
                             + ", expected " + componentClass.getSimpleName());
         }
         return componentClass.cast(c);
+    }
+
+    public void print() {
+
     }
 
     @Override
