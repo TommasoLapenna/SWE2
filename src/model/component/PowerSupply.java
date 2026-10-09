@@ -5,7 +5,7 @@ import model.attribute.EfficencyRating;
 import model.attribute.PsuFormFactor;
 
 public record PowerSupply(
-        String id, String brand, String model, double price,
+        int id, String brand, String model, double price,
         int wattage,
         EfficencyRating efficencyRating,
         PsuFormFactor formFactor,

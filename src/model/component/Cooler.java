@@ -7,7 +7,7 @@ import model.attribute.Socket;
 import java.util.Set;
 
 public record Cooler (
-        String id, String brand, String model, double price, int powerDrawWatts,
+        int id, String brand, String model, double price, int powerDrawWatts,
         CoolerType coolingType,
         Set<Socket> supportedSocktes,
         int maxTdp,

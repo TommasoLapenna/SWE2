@@ -1,21 +1,19 @@
 package build;
 
-import build.rule.ComponentCountSpecification;
-import build.rule.PsuSufficientWattsSpecification;
-import build.rule.SocketMatchSpecification;
+import build.build_specification.ComponentCountSpecification;
+import build.build_specification.PsuSufficientWattsSpecification;
+import build.build_specification.SocketMatchSpecification;
 import factory.Factory;
 import model.attribute.ComponentType;
+import build.build_specification.BuildSpecification;
 
-import specification.Specification;
-
-public final class Specs<PcBuild> implements Factory {
+public final class Specs implements Factory {
     private Specs() {}
 
-    //CARDINALITY SPECIFICATIONS FACTORY:
-    static Specification<PcBuilder> atMost(ComponentType t, int n)  { return new ComponentCountSpecification(t, 0, n); }
-    static Specification<PcBuilder> atLeast(ComponentType t, int n) { return new ComponentCountSpecification(t, n, Integer.MAX_VALUE); }
-    static Specification<PcBuilder> exactly(ComponentType t, int n) { return new ComponentCountSpecification(t, n, n); }
+    static BuildSpecification atMost(ComponentType t, int n)  { return new ComponentCountSpecification(t, 0, n); }
+    static BuildSpecification atLeast(ComponentType t, int n) { return new ComponentCountSpecification(t, n, Integer.MAX_VALUE); }
+    static BuildSpecification exactly(ComponentType t, int n) { return new ComponentCountSpecification(t, n, n); }
 
-    static Specification<PcBuilder> socketMatchSpecification = new SocketMatchSpecification();
-    static Specification<PcBuilder> psuSufficientWattsSpecification = new PsuSufficientWattsSpecification();
+    static BuildSpecification socketMatchSpecification = new SocketMatchSpecification();
+    static BuildSpecification psuSufficientWattsSpecification = new PsuSufficientWattsSpecification();
 }

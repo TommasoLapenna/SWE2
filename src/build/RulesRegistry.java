@@ -1,6 +1,6 @@
 package build;
 
-import build.rule.Severity;
+import build.build_specification.BuildSpecification;
 import factory.Factory;
 import model.attribute.ComponentType;
 import specification.Specification;
@@ -10,8 +10,8 @@ import java.util.*;
 public class RulesRegistry implements Factory {
     private Map<String, BuildRule> rules = new LinkedHashMap<>();
 
-    public BuildRule create(int id, String name, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types) {
-            return new BuildRule(id, name, specification, severity, message, Set.of(types));
+    public BuildRule create(int id, String name, BuildSpecification specification, Severity severity, String message) {
+            return new BuildRule(id, name, specification, severity, message);
     }
 
     /*
@@ -20,18 +20,16 @@ public class RulesRegistry implements Factory {
     }
     */
 
-    public BuildRule create(int id, String name, BuildRule guard, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types) {
-        Set<ComponentType> totalComponents = new HashSet<>(Set.of(types));
-        totalComponents.addAll(guard.involvedComponents());
-        Specification<PcBuilder> totalSpecification = guard.specification().implies(specification);
+    public BuildRule create(int id, String name, BuildRule guard, BuildSpecification specification, Severity severity, String message) {
+            BuildSpecification totalSpecification = guard.specification().implies(specification);
 
-        return new BuildRule(id, name, totalSpecification, severity, message, totalComponents);
+        return new BuildRule(id, name, totalSpecification, severity, message);
     }
 
-    public BuildRule create(int id, String name, Specification<PcBuilder> guard, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types) {
-        Specification<PcBuilder> totalSpecification = guard.implies(specification);
+    public BuildRule create(int id, String name, BuildSpecification guard, BuildSpecification specification, Severity severity, String message) {
+        BuildSpecification totalSpecification = guard.implies(specification);
 
-        return new BuildRule(id, name, totalSpecification, severity, message, Set.of(types));
+        return new BuildRule(id, name, totalSpecification, severity, message);
     }
 
     public BuildRule get(String name) {
@@ -41,7 +39,7 @@ public class RulesRegistry implements Factory {
         return rule;
     }
 
-    public Specification<PcBuilder> specification(String name) {
+    public BuildSpecification specification(String name) {
         BuildRule rule = rules.get(name);
         if(rule == null)
             throw new IllegalArgumentException("No rule with name " + name);
@@ -51,16 +49,16 @@ public class RulesRegistry implements Factory {
         rules.put(rule.name(), rule);
     }
 
-    public void createAndAdd(int id, String name, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types) {
-        addRule(create(id, name, specification, severity, message, types));
+    public void createAndAdd(int id, String name, BuildSpecification specification, Severity severity, String message) {
+        addRule(create(id, name, specification, severity, message));
     }
 
-    public void createAndAdd(int id, String name, BuildRule guard, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types) {
-        addRule(create(id, name, guard, specification, severity, message, types));
+    public void createAndAdd(int id, String name, BuildRule guard, BuildSpecification specification, Severity severity, String message) {
+        addRule(create(id, name, guard, specification, severity, message));
     }
 
-    public void createAndAdd(int id, String name, Specification<PcBuilder> guard, Specification<PcBuilder> specification, Severity severity, String message, ComponentType... types){
-        addRule(create(id, name, guard, specification, severity, message, types));
+    public void createAndAdd(int id, String name, BuildSpecification guard, BuildSpecification specification, Severity severity, String message){
+        addRule(create(id, name, guard, specification, severity, message));
     }
 
     public List<BuildRule> rules() {

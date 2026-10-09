@@ -3,12 +3,12 @@ package model.component;
 import model.attribute.*;
 
 public record Motherboard (
-        String id, String brand, String model, double price,
+        int id, String brand, String model, double price,
         Socket socket,
         String supportedChipset,
         FormFactor formFactor,
         MemoryGen supportedMemoryGen,
-        int cpuSockets,
+        //int cpuSockets,
         int ramSlots,
         int maxMemoryGb,
         int maxMemorySpeedMhz,

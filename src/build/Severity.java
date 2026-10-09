@@ -1,4 +1,4 @@
-package build.rule;
+package build;
 
 public enum Severity {
     MESSAGE,

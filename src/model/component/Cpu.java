@@ -8,7 +8,7 @@ import java.util.Set;
 
 public record Cpu
         (
-                String id, String brand, String model, double price, int tdpWatts,
+                int id, String brand, String model, double price, int tdpWatts,
                 Socket socket,
                 int cores,
                 int threads,

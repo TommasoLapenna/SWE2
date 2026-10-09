@@ -5,7 +5,7 @@ import model.attribute.ConstantPowerDraw;
 import model.attribute.MemoryGen;
 
 public record Memory (
-        String id, String brand, String model, double price,
+        int id, String brand, String model, double price,
         MemoryGen memoryGen,
         int sticksQty,
         int stickCapacityGb,

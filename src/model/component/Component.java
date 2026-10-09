@@ -5,7 +5,7 @@ import model.attribute.ComponentType;
 public sealed interface Component
         permits Case, Gpu, Peripherals, Cooler, Cpu, Memory, Motherboard, PowerSupply, Storage {
 
-    String id();
+    int id();
     String brand();
     String model();
     double price();

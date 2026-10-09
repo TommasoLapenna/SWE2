@@ -1,10 +1,13 @@
-package build.rule;
+package build.build_specification;
 
 import build.PcBuilder;
 import model.attribute.ComponentType;
 import specification.CompositeSpecification;
 
-public final class ComponentCountSpecification extends CompositeSpecification<PcBuilder> {
+import java.util.EnumSet;
+import java.util.Set;
+
+public final class ComponentCountSpecification extends BuildSpecification {
     private final ComponentType type;
     private final int min, max;
 
@@ -19,5 +22,7 @@ public final class ComponentCountSpecification extends CompositeSpecification<Pc
         int n = build.getComponentNumber(type);
         return n >= min && n <= max;
     }
+
+    @Override public Set<ComponentType> dependsOn() { return EnumSet.of(type); }
 }
 

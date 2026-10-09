@@ -7,7 +7,7 @@ import model.attribute.PsuFormFactor;
 import java.util.Set;
 
 public record Case(
-        String id, String brand, String model, double price, int powerDrawWatts,
+        int id, String brand, String model, double price, int powerDrawWatts,
         Set<FormFactor> supportedForms,
         Set<PsuFormFactor> supportedPsuForms,
         int maxGpuLengthMm,

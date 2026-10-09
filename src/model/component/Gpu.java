@@ -3,7 +3,7 @@ package model.component;
 import model.attribute.ComponentType;
 
 public record Gpu(
-        String id, String brand, String model, double price, int tdpWatts,
+        int id, String brand, String model, double price, int tdpWatts,
         int vramCapacityGb,
         int lenghtMm,
         double slotWidth,

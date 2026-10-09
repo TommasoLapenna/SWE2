@@ -6,7 +6,7 @@ import model.attribute.StorageTech;
 import model.attribute.StorageType;
 
 public record Storage(
-        String id, String brand, String model, double price,
+        int id, String brand, String model, double price,
         StorageType storageType,
         StorageTech storageTech,
         int CapacityGb
