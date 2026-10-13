@@ -23,12 +23,12 @@ public class PcBuilder implements Subject <BuildEvent> {
 
     public void addComponent(Component c) {
         components.get(c.type()).add(c);
-        notify(new BuildEvent(BuildEventType.ADDED, c.type()));
+        notify(new BuildEvent(BuildEventType.ADDED, c));
     }
 
     public boolean removeComponent(Component c) {
         if(components.get(c.type()).remove(c)) {
-            notify(new BuildEvent(BuildEventType.REMOVED, c.type()));
+            notify(new BuildEvent(BuildEventType.REMOVED, c));
             return true;
         }
         return false;

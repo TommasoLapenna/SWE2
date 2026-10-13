@@ -9,22 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Violation {
-    private String rule;
-    private String message;
-    private Map<ComponentType, List<Component>> involvedComponents;
 
-    public Violation(String rule, String message, Map<ComponentType, List<Component>> involvedComponents) {
-        this.rule = rule;
-        this.message = message;
-        this.involvedComponents = involvedComponents;
-    }
-
-    public void add(ComponentType type, List<Component> components) {
-        this.involvedComponents.put(type, components);
-    }
-
+public record Violation(
+        String rule,
+        Severity severity,
+        String message,                                   // template with {TYPE} placeholders
+        Map<ComponentType, List<Component>> involvedComponents
+) {
     private static final Pattern PLACEHOLDER = Pattern.compile("\\{([A-Z_]+)}");
+
+    public Violation {
+        involvedComponents = Map.copyOf(involvedComponents);
+    }
 
     public String getMessage() {
         return PLACEHOLDER.matcher(message).replaceAll(m -> {
