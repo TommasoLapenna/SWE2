@@ -3,12 +3,13 @@ package build;
 import java.util.*;
 import java.util.function.Function;
 
-public abstract class InvertedIndexEnumMap<K extends Enum<K>, V> {
+// Abstract?????
+public abstract class InvertedIndexMap<K extends Enum<K>, V> {
 
     protected final Map<K, List<V>> index;
     private final Function<V, Set<K>> keysOf;
 
-    public InvertedIndexEnumMap(Class<K> keyType, Function<V, Set<K>> keysOf) {
+    public InvertedIndexMap(Class<K> keyType, Function<V, Set<K>> keysOf) {
         this.index = new EnumMap<>(keyType);
         this.keysOf = keysOf;
         for(K key : keyType.getEnumConstants()) {

@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class RulesRegistry extends InvertedIndexEnumMap<ComponentType, BuildRule>{
+public class RulesRegistry extends InvertedIndexMap<ComponentType, BuildRule> {
 
     private final Map<String, BuildRule> rules = new LinkedHashMap<>();
 
