@@ -16,7 +16,8 @@ public record Violation(
         String message,                                   // template with {TYPE} placeholders
         Map<ComponentType, List<Component>> involvedComponents
 ) {
-    private static final Pattern PLACEHOLDER = Pattern.compile("\\{([A-Z_]+)}");
+    // package-private: also used by BuildRule to validate message templates when the rule is created
+    static final Pattern PLACEHOLDER = Pattern.compile("\\{([A-Z_]+)}");
 
     public Violation {
         involvedComponents = Map.copyOf(involvedComponents);
