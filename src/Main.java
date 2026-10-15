@@ -3,7 +3,9 @@ import build.PcBuilder;
 import build.Violation;
 import model.attribute.FormFactor;
 import model.attribute.MemoryGen;
+import model.attribute.PsuFormFactor;
 import model.attribute.Socket;
+import model.component.Case;
 import model.component.Component;
 import model.component.Cpu;
 import model.component.Motherboard;
@@ -21,6 +23,8 @@ public class Main {
 
         Component mobo = new Motherboard(1236, "ASUS", "ROG", 200.32, Socket.AM5, "A620", FormFactor.ATX, MemoryGen.DDR4, 8, 1000, 1000, 2, 2, 2);
 
+        Component case1 = new Case(1234, "Gigabyte", "Peepeepoopoo", 450.50, 100, Set.of(FormFactor.E_ATX), Set.of(PsuFormFactor.SFX), 100, 100, 4, 4, Set.of(1, 2));
+
         pc.print();
 
         pc.addComponent(cpu1);
@@ -33,6 +37,9 @@ public class Main {
         printRoutine(pc, comp);
 
         pc.removeComponent(cpu2);
+        printRoutine(pc, comp);
+
+        pc.addComponent(case1);
         printRoutine(pc, comp);
     }
 

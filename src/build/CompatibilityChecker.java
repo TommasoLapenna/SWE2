@@ -27,8 +27,8 @@ public class CompatibilityChecker implements Observer<BuildEvent> {
 
         registry.add(RulesFactory.create(
                 1,
-                "SINGLE-CPU",
-                registry.get("TOO-MANY-CPUS"),
+                "TOO-MANY-CPUS",
+                registry.get("MISSING-CPU"),
                 Specs.atMost(ComponentType.CPU, 1),
                 Severity.ERROR,
                 "Only one CPU is allowed, found: {CPU}"
@@ -114,9 +114,9 @@ public class CompatibilityChecker implements Observer<BuildEvent> {
                 5,
                 "SOCKET-MATCH",
                 registry.specification("MISSING-CPU").implies(
-                registry.specification("SINGLE-CPU").implies(
+                registry.specification("TOO-MANY-CPUS").implies(
                         registry.specification("MISSING-MOBO").implies(
-                                registry.specification("SINGLE-MOBO").implies(
+                                registry.specification("TOO-MANY-MOBOS").implies(
                                         Specs.socketMatchSpecification)))),
                 Severity.ERROR,
                 "CPU {CPU} and Motherboard {MOTHERBOARD} socket must match"
@@ -133,6 +133,16 @@ public class CompatibilityChecker implements Observer<BuildEvent> {
                 registry.specification("SINGLE-MOBO")
         ));
          */
+
+        registry.add(RulesFactory.create(
+            6,
+            "FORM-FACTOR-MATCH",
+            Specs.exactly(ComponentType.CASE,1).and(Specs.exactly(ComponentType.MOTHERBOARD,1)),
+            Specs.formFactorMatchSpecification,
+                Severity.ERROR,
+                "Motherboard {MOTHERBOARD} form factor must match case {CASE}"
+        ));
+
         evaluateAll();
 
     }
