@@ -29,7 +29,7 @@ public abstract class BuildSpecification extends CompositeSpecification<PcBuilde
     }
 
     // Result of any combination: delegates evaluation, carries the merged dependencies
-    private static final class Combined extends BuildSpecification {
+    protected static final class Combined extends BuildSpecification {
         private final Specification<PcBuilder> delegate;
         private final Set<ComponentType> deps;
 

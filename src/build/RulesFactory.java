@@ -28,6 +28,12 @@ public class RulesFactory implements Factory {
         return new BuildRule(id, name, totalSpecification, severity, message, guardSpecification);
     }
 
+    public static BuildRule create(int id, String name, Severity severity, String message,BuildSpecification specification, BuildSpecification... guardedBy){
+        BuildSpecification totalSpecification = specification;
+        for(int i = guardedBy.length - 1; i >= 0; i--)
+            totalSpecification = guardedBy[i].implies(totalSpecification);
+        return new BuildRule(id, name, totalSpecification, severity, message);
+    }
     /*
     public BuildRule get(String name) {
         BuildRule rule = rules.get(name);

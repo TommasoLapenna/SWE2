@@ -21,15 +21,12 @@ public class PcBuilder implements Subject <BuildEvent> {
         }
     }
 
-    // Multiple components of the same type (even equal ones, e.g. two identical RAM kits) are intentionally
-    // allowed: the rules check whether the resulting count is valid
     public void addComponent(Component c) {
-        Objects.requireNonNull(c, "Component must not be null");
+        Objects.requireNonNull(c, "Component must not be null");Objects.requireNonNull(c, "Component must not be null");
         components.get(c.type()).add(c);
         notify(new BuildEvent(BuildEventType.ADDED, c));
     }
 
-    // Removes a single occurrence of the component
     public boolean removeComponent(Component c) {
         Objects.requireNonNull(c, "Component must not be null");
         if(components.get(c.type()).remove(c)) {
@@ -53,13 +50,11 @@ public class PcBuilder implements Subject <BuildEvent> {
         return !components.get(componentType).isEmpty();
     }
 
-    // Read-only view: modifying the internal list directly would bypass notify(), leaving observers
-    // (e.g. the CompatibilityChecker) with stale results. Use addComponent / removeComponent instead
     public List<Component> getComponents(ComponentType componentType) {
         return Collections.unmodifiableList(components.get(componentType));
     }
 
-    // Typed version of getComponents, the multi-component counterpart of getSingleComponent
+    //Ai version
     public <T extends Component> List<T> getComponents(ComponentType componentType, Class<T> componentClass) {
         return components.get(componentType).stream().map(componentClass::cast).toList();
     }
@@ -99,8 +94,6 @@ public class PcBuilder implements Subject <BuildEvent> {
 
     @Override
     public void notify(BuildEvent event) {
-        // Iterate over a snapshot: an observer that attaches/detaches inside update() would otherwise
-        // cause a ConcurrentModificationException or make the loop silently skip the next observer
         for(Observer<BuildEvent> o : List.copyOf(observers)) {
             o.update(event);
         }
