@@ -2,44 +2,66 @@ package build;
 
 import model.attribute.ComponentType;
 import model.component.Component;
-import observer.Observer;
-import observer.Subject;
+import pattern.memento.Memento;
+import pattern.memento.Originator;
+import pattern.observer.Observer;
+import pattern.observer.Subject;
 
 import java.util.*;
 
-public class PcBuilder implements Subject <BuildEvent> {
-    private final Map<ComponentType, List<Component>> components = new EnumMap<>(ComponentType.class);
+public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
+    private Map<ComponentType, List<Component>> components = new EnumMap<>(ComponentType.class);
     private final List<Observer<BuildEvent>> observers = new ArrayList<Observer<BuildEvent>>();
     private String name;
+
+    private final BuildView view = new ReadOnlyView();
 
     public PcBuilder(String name) {
         this.name = name;
         // PRE-Initialization for the all component lists, memory usage negligible (only a few types of components)
         // compared to the benefits of avoiding null checks and simplifying code
-        for(ComponentType type : ComponentType.values()) {
+        for (ComponentType type : ComponentType.values()) {
             components.put(type, new ArrayList<>());
         }
     }
 
+    private final class ReadOnlyView implements BuildView {
+        @Override public String name()                        { return PcBuilder.this.name(); }
+        @Override public int totalWattage()                   { return PcBuilder.this.totalWattage(); }
+        @Override public boolean hasComponent(ComponentType t){ return PcBuilder.this.hasComponent(t); }
+        @Override public List<Component> getComponents(ComponentType t) { return PcBuilder.this.getComponents(t); }
+        @Override public int getComponentNumber(ComponentType t) { return PcBuilder.this.getComponentNumber(t); }
+        @Override public Map<ComponentType, List<Component>> components() { return PcBuilder.this.immutableMapCopy(); }
+    }
+
+    // Return a read-only view of the pc build
+    public BuildView view() {
+        return view;
+    }
+
     public void addComponent(Component c) {
-        Objects.requireNonNull(c, "Component must not be null");Objects.requireNonNull(c, "Component must not be null");
+        Objects.requireNonNull(c, "Component must not be null");
         components.get(c.type()).add(c);
         notify(new BuildEvent(BuildEventType.ADDED, c));
     }
 
     public boolean removeComponent(Component c) {
         Objects.requireNonNull(c, "Component must not be null");
-        if(components.get(c.type()).remove(c)) {
+        if (components.get(c.type()).remove(c)) {
             notify(new BuildEvent(BuildEventType.REMOVED, c));
             return true;
         }
         return false;
     }
 
+    public String name() {
+        return name;
+    }
+
     public int totalWattage() {
         int totalWattage = 0;
-        for(ComponentType type : ComponentType.values()) {
-            for(Component c : components.get(type)) {
+        for (ComponentType type : ComponentType.values()) {
+            for (Component c : components.get(type)) {
                 totalWattage += c.powerDrawWatts();
             }
         }
@@ -63,7 +85,7 @@ public class PcBuilder implements Subject <BuildEvent> {
         return components.get(componentType).size();
     }
 
-    public <T extends Component> T getSingleComponent(ComponentType type, Class<T> componentClass)  {
+    public <T extends Component> T getSingleComponent(ComponentType type, Class<T> componentClass) {
         List<Component> componentList = components.get(type);
 
         if (componentList == null || componentList.isEmpty()) {
@@ -94,86 +116,50 @@ public class PcBuilder implements Subject <BuildEvent> {
 
     @Override
     public void notify(BuildEvent event) {
-        for(Observer<BuildEvent> o : List.copyOf(observers)) {
+        for (Observer<BuildEvent> o : List.copyOf(observers)) {
             o.update(event);
         }
     }
 
-
-
-
-
-    //PRINT METHOD WRITTEN ENTIRELY BY CLAUDE
-    public void print() {
-        final String EMPTY_SLOT = "-- empty --";
-
-        // 1. Build all the text lines first, so the box width can fit the longest one
-        String title = "PC BUILD: " + name;
-        String footer = "Total draw: " + totalWattage() + " W";
-
-        List<String> headers = new ArrayList<>();
-        List<List<String>> bodies = new ArrayList<>();
-
-        for (ComponentType type : ComponentType.values()) {
-            List<Component> list = components.get(type);
-            headers.add(type + " [" + list.size() + "]");
-
-            List<String> body = new ArrayList<>();
-            if (list.isEmpty()) {
-                body.add("  " + EMPTY_SLOT);
-            } else {
-                for (Component c : list) {
-                    body.add("  * " + describe(c));
-                }
-            }
-            bodies.add(body);
-        }
-
-        // 2. Compute the inner width
-        int width = Math.max(title.length(), footer.length());
-        for (int i = 0; i < headers.size(); i++) {
-            width = Math.max(width, headers.get(i).length());
-            for (String line : bodies.get(i)) {
-                width = Math.max(width, line.length());
-            }
-        }
-        width += 2; // padding
-
-        // 3. Draw
-        String bar = "═".repeat(width);
-        String thin = "─".repeat(width);
-
-        System.out.println("╔" + bar + "╗");
-        System.out.println("║" + center(title, width) + "║");
-        System.out.println("╠" + bar + "╣");
-
-        for (int i = 0; i < headers.size(); i++) {
-            System.out.println("║ " + pad(headers.get(i), width - 1) + "║");
-            for (String line : bodies.get(i)) {
-                System.out.println("║ " + pad(line, width - 1) + "║");
-            }
-            if (i < headers.size() - 1) {
-                System.out.println("╟" + thin + "╢");
-            }
-        }
-
-        System.out.println("╠" + bar + "╣");
-        System.out.println("║ " + pad(footer, width - 1) + "║");
-        System.out.println("╚" + bar + "╝");
+    private Map<ComponentType, List<Component>> immutableMapCopy() {
+        Map<ComponentType, List<Component>> copy = new EnumMap<>(ComponentType.class);
+        components.forEach((type, list) -> copy.put(type, List.copyOf(list)));
+        return Collections.unmodifiableMap(copy);
     }
 
-    private String describe(Component c) {
-        // Replace with your own accessors, e.g. c.brand() + " " + c.model() + " (" + c.powerDrawWatts() + " W)"
-        return c.name() + " (" + c.powerDrawWatts() + " W)";
+    private Map<ComponentType, List<Component>> mutableMapCopy(Map<ComponentType, List<Component>> map) {
+        Map<ComponentType, List<Component>> copy = new EnumMap<>(ComponentType.class);
+        map.forEach((type, list) -> copy.put(type, new ArrayList<>(list)));
+        return copy;
     }
 
-    private static String pad(String s, int width) {
-        return String.format("%-" + width + "s", s);
+    @Override
+    public Memento createMemento() {
+        return new BuildSnapshot(this);
     }
 
-    private static String center(String s, int width) {
-        int left = (width - s.length()) / 2;
-        return " ".repeat(left) + s + " ".repeat(width - s.length() - left);
+    @Override
+    public void restoreMemento(Memento memento) {
+        if (memento instanceof BuildSnapshot m){
+            components = mutableMapCopy(m.getState());
+        }else
+            throw new IllegalArgumentException("Invalid memento type");
+        notify(new BuildEvent(BuildEventType.RESTORED, null));
+    }
+
+    // The Memento marker interface is VERY important, it makes the snapshot ottaniable outside, but it will not be accessible
+    private class BuildSnapshot implements Memento {
+
+        //private Originator<Memento> originator; This is not needed it's obtained with PcbìBuilder.this
+        private final Map<ComponentType, List<Component>> components;
+
+        public BuildSnapshot(PcBuilder build) {
+            this.components = immutableMapCopy();
+        }
+
+        public Map<ComponentType, List<Component>> getState() {
+            return components;
+        }
     }
 
 }

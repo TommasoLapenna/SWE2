@@ -2,7 +2,7 @@ package build;
 
 import model.attribute.ComponentType;
 import model.component.Component;
-import observer.Event;
+import pattern.observer.Event;
 
 public class BuildEvent extends Event<BuildEventType> {
 

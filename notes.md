@@ -16,7 +16,7 @@ pc-configurator/
 │   │   ├── ComputerBuilder.java
 │   │   └── PresetDirector.java        # "Gaming PC", "Office PC" recipes
 │   │
-│   ├── catalog/                      # factory + Singleton
+│   ├── catalog/                      # pattern.factory + Singleton
 │   │   ├── ComponentFactory.java      # or per-type factories
 │   │   ├── ComponentCatalog.java      # Singleton, holds all available parts
 │   │   └── CatalogLoader.java         # Adapter, if loading from JSON/CSV
@@ -41,13 +41,13 @@ pc-configurator/
 │   │   ├── WarrantyDecorator.java
 │   │   └── AssemblyServiceDecorator.java
 │   │
-│   ├── command/                       # Command pattern (undo/redo)
+│   ├── pattern.command/                       # Command pattern (undo/redo)
 │   │   ├── ConfigCommand.java         # execute(), undo()
 │   │   ├── AddComponentCommand.java
 │   │   ├── RemoveComponentCommand.java
 │   │   └── CommandHistory.java        # stack-based invoker
 │   │
-│   ├── observer/                      # Observer pattern
+│   ├── pattern.observer/                      # Observer pattern
 │   │   ├── ConfigurationObserver.java
 │   │   ├── PriceDisplay.java
 │   │   ├── PowerMeterDisplay.java
@@ -71,6 +71,6 @@ pc-configurator/
 │   └── PowerDrawVisitorTest.java
 ├── build/
 │   └── ComputerBuilderTest.java
-└── command/
+└── pattern.command/
 └── CommandHistoryTest.java
 ```
