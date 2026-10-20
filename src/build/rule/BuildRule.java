@@ -15,8 +15,6 @@ public record BuildRule (
                             String message
     ) {
 
-    // Compact constructor: validates the message template up front, instead of failing (or printing "none")
-    // only when a violation is displayed
 
     public BuildRule {
         Matcher m = Violation.PLACEHOLDER.matcher(message);

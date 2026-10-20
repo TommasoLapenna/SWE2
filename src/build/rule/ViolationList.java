@@ -11,4 +11,8 @@ public class ViolationList {
     public void clear(String ruleName) { violations.remove(ruleName); }
 
     public List<Violation> violations() { return new ArrayList<>(violations.values()); }
+
+    public boolean containsWarning() { return violations.values().stream().anyMatch(v -> v.severity() == Severity.WARNING); }
+    public boolean containsError()   { return violations.values().stream().anyMatch(v -> v.severity() == Severity.ERROR); }
+
 }

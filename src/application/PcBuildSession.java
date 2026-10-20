@@ -3,11 +3,11 @@ package application;
 import build.BuildView;
 import build.CompatibilityChecker;
 import build.PcBuilder;
+import build.rule.Severity;
 import build.rule.Violation;
 import build.snapshot.SnapshotHistory;
 import model.component.Component;
 import pattern.facade.Facade;
-
 import java.util.List;
 
 public class PcBuildSession implements Facade {
@@ -15,9 +15,11 @@ public class PcBuildSession implements Facade {
     private final PcBuilder build;
     private final CompatibilityChecker checker;
     private final SnapshotHistory history;
+    // private final Checkout checkout;
 
     public PcBuildSession(String name) {
         build = new PcBuilder(name);
+        // checkout = new Checkout(build);
         checker = new CompatibilityChecker(build, DefaultRules.create());
         history = new SnapshotHistory(build::createMemento);
     }
@@ -55,6 +57,12 @@ public class PcBuildSession implements Facade {
             System.out.println(" - " + violation.getMessage());
         }
         System.out.println("===========================================================================================");
+    }
+
+    public boolean canCheckout() {
+       return getViolations().stream()
+               .peek(v -> { if (v.severity() == Severity.WARNING) System.out.println(v.message());})
+               .noneMatch(v -> v.severity() == Severity.ERROR);
     }
 
     //READ ONLY VERSION OF PCBUILDER
