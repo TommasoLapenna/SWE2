@@ -1,0 +1,331 @@
+// PC Configurator - schema proposto (PostgreSQL)
+// Bozza per revisione: nessun SQL generato da qui ancora.
+//
+// Convenzioni:
+// - supertipo `component` + una tabella per sottotipo con PK = FK (id_component)
+// - coerenza del tipo: ogni sottotipo ha una colonna `type` fissata da CHECK e una FK composta
+//   (id_component, type) -> component(id_component, type)
+// - enum Java -> tabelle lookup con PK varchar `name` = Enum.name()
+// - Set<...> nei record -> tabelle ponte
+// - watt salvati solo dove il record li legge dai dati (Cpu, Gpu, Case, Peripherals)
+
+// DA FARE CHECK SU CHECK COOLER
+
+Project pc_configurator {
+  database_type: 'PostgreSQL'
+}
+
+// ---------------------------------------------------------------------------
+// Lookup (una per enum)
+// ---------------------------------------------------------------------------
+
+Table component_type {
+  name varchar(20) [pk, note: 'ComponentType']
+}
+
+Table socket {
+  name varchar(20) [pk, note: 'Socket']
+}
+
+Table memory_gen {
+  name varchar(10) [pk, note: 'MemoryGen']
+}
+
+Table form_factor {
+  name varchar(20) [pk, note: 'FormFactor']
+}
+
+Table psu_form_factor {
+  name varchar(20) [pk, note: 'PsuFormFactor']
+}
+
+Table storage_tech {
+  name varchar(20) [pk, note: 'StorageTech']
+}
+
+Table storage_type {
+  name varchar(10) [pk, note: 'StorageType']
+}
+
+Table cooler_type {
+  name varchar(10) [pk, note: 'CoolerType']
+}
+
+Table efficiency_rating {
+  name varchar(20) [pk, note: 'EfficencyRating (nome classe Java con typo)']
+}
+
+Table chipset {
+  name varchar(20) [pk, note: 'Chipset']
+}
+
+// ---------------------------------------------------------------------------
+// Supertipo
+// ---------------------------------------------------------------------------
+
+Table component {
+  id_component integer [pk, increment]
+  type         varchar(20)   [not null, ref: > component_type.name]
+  brand        varchar(50)   [not null]
+  model        varchar(100)  [not null]
+  price        numeric(10,2) [not null]
+
+  indexes {
+    (id_component, type) [unique, name: 'uq_component_id_type'] // target della FK composta dei sottotipi
+  }
+  checks {
+    `price >= 0` [name: 'ck_component_price']
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Sottotipi
+// ---------------------------------------------------------------------------
+
+Table cpu {
+  id_component    integer      [pk]
+  type            varchar(20)  [not null, default: 'CPU']
+  socket          varchar(20)  [not null, ref: > socket.name]
+  cores           integer      [not null]
+  threads         integer      [not null]
+  base_clock_ghz  numeric(4,2) [not null]
+  tdp_watts       integer      [not null]
+  integrated_gpu  boolean      [not null]
+  cooler_included boolean      [not null]
+
+  checks {
+    `type = 'CPU'`          [name: 'ck_cpu_type']
+    `cores > 0`             [name: 'ck_cpu_cores']
+    `threads >= cores`      [name: 'ck_cpu_threads']
+    `base_clock_ghz > 0`    [name: 'ck_cpu_clock']
+    `tdp_watts > 0`         [name: 'ck_cpu_tdp']
+  }
+}
+
+Table cpu_memory_gen {
+  id_component integer     [not null]
+  memory_gen   varchar(10) [not null, ref: > memory_gen.name]
+
+  indexes {
+    (id_component, memory_gen) [pk]
+  }
+}
+
+Table gpu {
+  id_component          integer      [pk]
+  type                  varchar(20)  [not null, default: 'GPU']
+  tdp_watts             integer      [not null]
+  vram_gb               integer      [not null]
+  length_mm             integer      [not null]
+  slot_width            numeric(3,1) [not null]
+  recommended_psu_watts integer      [not null]
+  power_connectors      integer      [not null]
+
+  checks {
+    `type = 'GPU'`               [name: 'ck_gpu_type']
+    `tdp_watts > 0`              [name: 'ck_gpu_tdp']
+    `vram_gb > 0`                [name: 'ck_gpu_vram']
+    `length_mm > 0`              [name: 'ck_gpu_length']
+    `slot_width > 0`             [name: 'ck_gpu_slot_width']
+    `recommended_psu_watts > 0`  [name: 'ck_gpu_rec_psu']
+    `power_connectors >= 0`      [name: 'ck_gpu_power_conn'] // alcune GPU sono alimentate solo dallo slot
+  }
+}
+
+Table memory {
+  id_component      integer     [pk]
+  type              varchar(20) [not null, default: 'RAM']
+  memory_gen        varchar(10) [not null, ref: > memory_gen.name]
+  sticks_qty        integer     [not null, note: 'numero di moduli del kit']
+  stick_capacity_gb integer     [not null]
+  frequency_mhz     integer     [not null]
+
+  checks {
+    `type = 'RAM'`           [name: 'ck_memory_type']
+    `sticks_qty > 0`         [name: 'ck_memory_sticks']
+    `stick_capacity_gb > 0`  [name: 'ck_memory_capacity']
+    `frequency_mhz > 0`      [name: 'ck_memory_freq']
+  }
+}
+
+Table storage {
+  id_component integer     [pk]
+  type         varchar(20) [not null, default: 'STORAGE']
+  storage_type varchar(10) [not null, ref: > storage_type.name]
+  storage_tech varchar(20) [not null, ref: > storage_tech.name]
+  capacity_gb  integer     [not null]
+
+  checks {
+    `type = 'STORAGE'`                                    [name: 'ck_storage_type']
+    `capacity_gb > 0`                                     [name: 'ck_storage_capacity']
+    `storage_type <> 'HDD' OR storage_tech = 'SATA'`      [name: 'ck_storage_hdd_sata'] // opzionale: un HDD non e' M.2
+  }
+}
+
+Table motherboard {
+  id_component         integer     [pk]
+  type                 varchar(20) [not null, default: 'MOTHERBOARD']
+  socket               varchar(20) [not null, ref: > socket.name]
+  chipset              varchar(20) [not null, ref: > chipset.name]
+  form_factor          varchar(20) [not null, ref: > form_factor.name]
+  memory_gen           varchar(10) [not null, ref: > memory_gen.name]
+  ram_slots            integer     [not null]
+  max_memory_gb        integer     [not null]
+  max_memory_speed_mhz integer     [not null]
+  pcie_x16_slots       integer     [not null]
+  m2_slots             integer     [not null]
+  sata_ports           integer     [not null]
+
+  checks {
+    `type = 'MOTHERBOARD'`      [name: 'ck_mobo_type']
+    `ram_slots > 0`             [name: 'ck_mobo_ram_slots']
+    `max_memory_gb > 0`         [name: 'ck_mobo_max_mem']
+    `max_memory_speed_mhz > 0`  [name: 'ck_mobo_max_speed']
+    `pcie_x16_slots >= 0`       [name: 'ck_mobo_pcie']
+    `m2_slots >= 0`             [name: 'ck_mobo_m2']
+    `sata_ports >= 0`           [name: 'ck_mobo_sata']
+  }
+}
+
+Table power_supply {
+  id_component      integer     [pk]
+  type              varchar(20) [not null, default: 'POWER_SUPPLY']
+  wattage           integer     [not null]
+  efficiency_rating varchar(20) [not null, ref: > efficiency_rating.name]
+  form_factor       varchar(20) [not null, ref: > psu_form_factor.name]
+  pcie_connectors   integer     [not null]
+
+  checks {
+    `type = 'POWER_SUPPLY'`  [name: 'ck_psu_type']
+    `wattage > 0`            [name: 'ck_psu_wattage']
+    `pcie_connectors >= 0`   [name: 'ck_psu_pcie']
+  }
+}
+
+Table pc_case {
+  id_component         integer     [pk]
+  type                 varchar(20) [not null, default: 'CASE']
+  power_draw_watts     integer     [not null, note: 'letto dai dati (ventole/RGB)']
+  max_gpu_length_mm    integer     [not null]
+  max_cooler_height_mm integer     [not null]
+  expansion_slots      integer     [not null]
+  drive_bays           integer     [not null, note: 'bay SATA 2.5"/3.5"']
+
+  checks {
+    `type = 'CASE'`              [name: 'ck_case_type']
+    `power_draw_watts >= 0`      [name: 'ck_case_power']
+    `max_gpu_length_mm > 0`      [name: 'ck_case_gpu_len']
+    `max_cooler_height_mm > 0`   [name: 'ck_case_cooler_h']
+    `expansion_slots > 0`        [name: 'ck_case_exp_slots']
+    `drive_bays >= 0`            [name: 'ck_case_drive_bays']
+  }
+}
+
+Table case_form_factor {
+  id_component integer     [not null]
+  form_factor  varchar(20) [not null, ref: > form_factor.name]
+
+  indexes {
+    (id_component, form_factor) [pk]
+  }
+}
+
+Table case_psu_form_factor {
+  id_component    integer     [not null, ref: > pc_case.id_component]
+  psu_form_factor varchar(20) [not null, ref: > psu_form_factor.name]
+
+  indexes {
+    (id_component, psu_form_factor) [pk]
+  }
+}
+
+Table case_radiator {
+  id_component integer [not null]
+  radiator_mm  integer [not null]
+
+  indexes {
+    (id_component, radiator_mm) [pk]
+  }
+  checks {
+    `radiator_mm > 0` [name: 'ck_case_radiator_mm']
+  }
+}
+
+Table cooler {
+  id_component     integer     [pk]
+  type             varchar(20) [not null, default: 'COOLING']
+  cooler_type      varchar(10) [not null, ref: > cooler_type.name]
+  max_tdp_watts    integer     [not null, note: 'TDP dissipabile, non consumo']
+  height_mm        integer     [null, note: 'solo AIR']
+  radiator_size_mm integer     [null, note: 'solo LIQUID']
+
+  checks {
+    `type = 'COOLING'`  [name: 'ck_cooler_type']
+    `max_tdp_watts > 0` [name: 'ck_cooler_max_tdp']
+    `(cooler_type = 'AIR'    AND height_mm > 0 AND radiator_size_mm IS NULL) OR (cooler_type = 'LIQUID' AND radiator_size_mm > 0 AND height_mm IS NULL)` [name: 'ck_cooler_dimensions']
+  }
+}
+
+Table cooler_socket {
+  id_component integer     [not null]
+  socket       varchar(20) [not null, ref: > socket.name]
+
+  indexes {
+    (id_component, socket) [pk]
+  }
+}
+
+Table peripheral {
+  id_component     integer     [pk]
+  type             varchar(20) [not null, default: 'PERIPHERAL']
+  power_draw_watts integer     [not null]
+
+  checks {
+    `type = 'PERIPHERAL'`  [name: 'ck_peripheral_type']
+    `power_draw_watts >= 0` [name: 'ck_peripheral_power']
+  }
+}
+
+// FK composte sottotipo -> supertipo (garantiscono che il type coincida)
+Ref: cpu.(id_component, type)          > component.(id_component, type) [delete: cascade]
+Ref: gpu.(id_component, type)          > component.(id_component, type) [delete: cascade]
+Ref: memory.(id_component, type)       > component.(id_component, type) [delete: cascade]
+Ref: storage.(id_component, type)      > component.(id_component, type) [delete: cascade]
+Ref: motherboard.(id_component, type)  > component.(id_component, type) [delete: cascade]
+Ref: power_supply.(id_component, type) > component.(id_component, type) [delete: cascade]
+Ref: pc_case.(id_component, type)      > component.(id_component, type) [delete: cascade]
+Ref: cooler.(id_component, type)       > component.(id_component, type) [delete: cascade]
+Ref: peripheral.(id_component, type)   > component.(id_component, type) [delete: cascade]
+
+// ---------------------------------------------------------------------------
+// Build salvate
+// ---------------------------------------------------------------------------
+
+Table build {
+  id_build       integer      [pk, increment]
+  nome           varchar(100) [not null]
+  data_creazione timestamp    [not null, default: `now()`]
+}
+
+Table build_item {
+  id_build     integer [not null]
+  id_component integer [not null]
+  quantity     integer [not null, default: 1]
+
+  indexes {
+    (id_build, id_component) [pk]
+  }
+  checks {
+    `quantity > 0` [name: 'ck_build_item_qty']
+  }
+}
+
+Ref: build_item.id_build     > build.id_build             [delete: cascade]
+Ref: build_item.id_component > component.id_component     [delete: restrict]
+
+// Tabelle ponte (Set<...> dei record)
+Ref: cpu_memory_gen.id_component       > cpu.id_component     [delete: cascade]
+Ref: case_form_factor.id_component     > pc_case.id_component [delete: cascade]
+Ref: case_psu_form_factor.id_component > pc_case.id_component [delete: cascade]
+Ref: case_radiator.id_component        > pc_case.id_component [delete: cascade]
+Ref: cooler_socket.id_component        > cooler.id_component  [delete: cascade]
