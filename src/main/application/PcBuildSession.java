@@ -1,0 +1,77 @@
+package main.application;
+
+import main.build.BuildView;
+import main.build.CompatibilityChecker;
+import main.build.PcBuilder;
+import main.build.rule.Severity;
+import main.build.rule.Violation;
+import main.build.SnapshotHistory;
+import main.model.component.Component;
+import main.pattern.facade.Facade;
+import java.util.List;
+
+public class PcBuildSession implements Facade {
+
+    private final PcBuilder build;
+    private final CompatibilityChecker checker;
+    private final SnapshotHistory history;
+    // private final Checkout checkout;
+
+    public PcBuildSession(String name) {
+        build = new PcBuilder(name);
+        // checkout = new Checkout(main.main.build);
+        checker = new CompatibilityChecker(build, DefaultRules.create());
+        history = new SnapshotHistory(build::createMemento);
+    }
+
+    public void add(Component c) {
+        history.save();
+        build.addComponent(c);
+    }
+
+    public boolean remove(Component c) {
+        if (!build.getComponents(c.type()).contains(c))
+            return false;
+        history.save();
+        return build.removeComponent(c);
+    }
+
+    public boolean undo() {
+        if (!history.canUndo())
+            return false;
+        build.restoreMemento(history.undo());
+        return true;
+    }
+
+    public boolean redo() {
+        if (!history.canRedo())
+            return false;
+        build.restoreMemento(history.redo());
+        return true;
+    }
+
+    public void print() {
+        System.out.println("===========================================================================================");
+        System.out.println(BuildPrinter.render(build.view()));
+        for (Violation violation : checker.violations()) {
+            System.out.println(" - " + violation.getMessage());
+        }
+        System.out.println("===========================================================================================");
+    }
+
+    public boolean canCheckout() {
+       return getViolations().stream()
+               .peek(v -> { if (v.severity() == Severity.WARNING) System.out.println(v.message());})
+               .noneMatch(v -> v.severity() == Severity.ERROR);
+    }
+
+    //READ ONLY VERSION OF PCBUILDER
+    public BuildView getBuild() {
+        return build.view();
+    }
+
+    public List<Violation> getViolations() {
+        return checker.violations();
+    }
+
+}
