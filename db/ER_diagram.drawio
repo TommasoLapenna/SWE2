@@ -1,0 +1,124 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="bT_9HYhqixCKprOnen9H">
+    <mxGraphModel dx="2841" dy="944" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7M9sjaXPacNKNZakEIpw-1" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="COMPONENT (astratta)" vertex="1">
+          <mxGeometry height="119" width="230" x="145" y="56" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-2" parent="7M9sjaXPacNKNZakEIpw-1" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="id (PK)&#xa;brand&#xa;model&#xa;price&#xa;/powerDrawWatts (derivato)" vertex="1">
+          <mxGeometry height="93" width="230" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-3" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="BUILD" vertex="1">
+          <mxGeometry height="85" width="200" x="-640" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-4" parent="7M9sjaXPacNKNZakEIpw-3" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="id (PK)&#xa;nome&#xa;data_creazione" vertex="1">
+          <mxGeometry height="59" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-5" parent="1" style="rhombus;whiteSpace=wrap;html=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);fontSize=12;fontColor=#ffffff;rounded=1;curved=0;" value="CONTIENE&#xa;Attributi:&#xa;(quantity)" vertex="1">
+          <mxGeometry height="100" width="170" x="-230" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-6" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-3" style="html=1;endArrow=none;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" target="7M9sjaXPacNKNZakEIpw-5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-7" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-5" style="html=1;endArrow=none;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-8" parent="1" style="text;html=0;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=12;fontStyle=1;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="(1,N)" vertex="1">
+          <mxGeometry height="20" width="45" x="-438" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-9" parent="1" style="text;html=0;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=12;fontStyle=1;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="(0,N)" vertex="1">
+          <mxGeometry height="20" width="45" x="95" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-10" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="CPU" vertex="1">
+          <mxGeometry height="170" width="200" x="-680" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-11" parent="7M9sjaXPacNKNZakEIpw-10" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);fontColor=light-dark(#000000,#000000);rounded=1;curved=0;" value="socket&#xa;cores&#xa;threads&#xa;base_Clock_Ghz&#xa;tdpWatts&#xa;integrated_gpu&#xa;cooler_included&#xa;MemoryGen (1,N)" vertex="1">
+          <mxGeometry height="144" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-12" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-10" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.1;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-13" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="GPU" vertex="1">
+          <mxGeometry height="136" width="200" x="-470" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-14" parent="7M9sjaXPacNKNZakEIpw-13" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="tdp_watts&#xa;vram_gb&#xa;length_mm&#xa;slot_width&#xa;recommended_psu_watts&#xa;power_connectors" vertex="1">
+          <mxGeometry height="110" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-15" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-13" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.2;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-16" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="MEMORY" vertex="1">
+          <mxGeometry height="102" width="200" x="-260" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-17" parent="7M9sjaXPacNKNZakEIpw-16" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="memory_gen&#xa;sticks_qty&#xa;stick_capacity_gb&#xa;frequency_mhz" vertex="1">
+          <mxGeometry height="76" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-18" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-16" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.3;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-19" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="STORAGE" vertex="1">
+          <mxGeometry height="85" width="200" x="-50" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-20" parent="7M9sjaXPacNKNZakEIpw-19" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="storage_type&#xa;storage_tech&#xa;capacity_gb" vertex="1">
+          <mxGeometry height="59" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-21" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-19" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.4;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-22" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="MOTHERBOARD" vertex="1">
+          <mxGeometry height="204" width="200" x="160" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-23" parent="7M9sjaXPacNKNZakEIpw-22" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="socket&#xa;chipset&#xa;form_factor&#xa;memory_gen&#xa;ram_slots&#xa;max_memory_gb&#xa;max_memory_speed_mhz&#xa;pcie_x16_slots&#xa;m2_slots&#xa;sata_ports" vertex="1">
+          <mxGeometry height="178" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-24" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-22" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-25" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="POWER_SUPPLY" vertex="1">
+          <mxGeometry height="102" width="200" x="370" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-26" parent="7M9sjaXPacNKNZakEIpw-25" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="wattage&#xa;efficiency_rating&#xa;form_factor&#xa;pcie_connectors" vertex="1">
+          <mxGeometry height="76" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-27" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-25" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.6;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-28" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="CASE" vertex="1">
+          <mxGeometry height="170" width="200" x="580" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-29" parent="7M9sjaXPacNKNZakEIpw-28" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="power_draw_watts&#xa;max_gpu_length_mm&#xa;max_cooler_height_mm&#xa;expansion_slots&#xa;drive_bays&#xa;{form_factor} (1,N)&#xa;{psu_form_factor} (1,N)&#xa;{radiator_mm} (0,N)" vertex="1">
+          <mxGeometry height="144" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-30" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-28" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.7;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-31" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="COOLER" vertex="1">
+          <mxGeometry height="119" width="200" x="790" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-32" parent="7M9sjaXPacNKNZakEIpw-31" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="cooler_type&#xa;max_tdp_watts&#xa;height_mm (AIR)&#xa;radiator_size_mm (LIQUID)&#xa;{socket} (1,N)" vertex="1">
+          <mxGeometry height="93" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-33" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-31" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.8;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-34" parent="1" style="swimlane;fontStyle=1;startSize=26;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);swimlaneFillColor=#ffffff;html=0;fontColor=#ffffff;rounded=1;curved=0;" value="PERIPHERAL" vertex="1">
+          <mxGeometry height="51" width="200" x="1000" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-35" parent="7M9sjaXPacNKNZakEIpw-34" style="text;html=0;align=left;verticalAlign=top;spacingLeft=6;whiteSpace=wrap;overflow=hidden;rotatable=0;fontSize=12;fillColor=light-dark(#FFFFFF,#FFFFFF);fontColor=#ffffff;strokeColor=light-dark(#B20000, #000000);rounded=1;curved=0;" value="power_draw_watts" vertex="1">
+          <mxGeometry height="25" width="200" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-36" edge="1" parent="1" source="7M9sjaXPacNKNZakEIpw-34" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=0;endSize=12;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.9;entryY=1;entryDx=0;entryDy=0;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);curved=0;" target="7M9sjaXPacNKNZakEIpw-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-37" parent="1" style="rounded=1;whiteSpace=wrap;html=0;align=left;spacingLeft=6;fillColor=light-dark(#FFFFFF,#FFFFFF);strokeColor=light-dark(#B20000, #000000);fontSize=12;fontColor=#ffffff;curved=0;" value="ISA (t,e): generalizzazione totale ed esclusiva.&#xa;Le figlie ereditano id, brand, model, price." vertex="1">
+          <mxGeometry height="60" width="360" x="405" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="7M9sjaXPacNKNZakEIpw-44" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;fontColor=light-dark(#000000,#000000);" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;non si accettano build vuote&amp;nbsp;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="20" width="134" x="-389" y="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
