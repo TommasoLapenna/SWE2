@@ -171,7 +171,7 @@ public final class Specs implements Factory {
     );
 
     public static BuildSpecification hasSolidStateDriveSpecification = new PredicateSpecification(
-            b -> b.getComponents(ComponentType.STORAGE, Storage.class).stream().anyMatch(d -> d.storageType() == StorageType.SDD),
+            b -> b.getComponents(ComponentType.STORAGE, Storage.class).stream().anyMatch(d -> d.storageType() == StorageType.SSD),
             Set.of(ComponentType.STORAGE)
     );
 

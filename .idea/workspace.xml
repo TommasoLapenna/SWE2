@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c46c9d56-8cc9-4d21-9008-469dc6de38d1" name="Changes" comment="db added">
+      <change afterPath="$PROJECT_DIR$/.idea/SWE2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d67173d8-16f3-49b1-86cb-fcc57f040623.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d67173d8-16f3-49b1-86cb-fcc57f040623/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/pc:builder.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/seed_lookups.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/test_data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/test_violations.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/untitled/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/untitled/untitled.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SWE.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/build/specification/Specs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/build/specification/Specs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/attribute/Socket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/attribute/Socket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/attribute/StorageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/attribute/StorageType.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseLocalColorSettings">
+    <colors>
+      <entry key="d67173d8-16f3-49b1-86cb-fcc57f040623" value="" />
+    </colors>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="60" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;samuele865&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:TommasoLapenna/SWE2.git&quot;,
+    &quot;accountId&quot;: &quot;b483d611-84c4-4569-b42e-410dca32a9af&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0012108729665308" />
+      <entry key="MS500" value="1.3076273063334596" />
+      <entry key="S2" value="2.1794861149057567" />
+      <entry key="S5" value="2.610311206871306" />
+      <entry key="S10" value="2.7929545501720145" />
+      <entry key="S30" value="2.959571816355999" />
+      <entry key="S60" value="3.271155752354225" />
+      <entry key="M2" value="3.959023650852377" />
+      <entry key="M5" value="5.522665676532942" />
+      <entry key="M10" value="7.481295240605379" />
+      <entry key="M15" value="8.707902263113336" />
+      <entry key="M30" value="10.462441045719322" />
+      <entry key="H1" value="11.613094700795571" />
+      <entry key="H2" value="12.274019043732919" />
+      <entry key="H4" value="12.628469154974425" />
+      <entry key="D1" value="12.936855684356063" />
+      <entry key="W1" value="12.990948958717999" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.9472032009111335" />
+      <entry key="MS500" value="1.2931414632920888" />
+      <entry key="S2" value="2.1732910723691763" />
+      <entry key="S5" value="2.6073159711167655" />
+      <entry key="S10" value="2.7913468058661226" />
+      <entry key="S30" value="2.9590031006812274" />
+      <entry key="S60" value="3.2708433035338254" />
+      <entry key="M2" value="3.9588286100556447" />
+      <entry key="M5" value="5.52242808813439" />
+      <entry key="M10" value="7.480993701059097" />
+      <entry key="M15" value="8.707614672399117" />
+      <entry key="M30" value="10.462232151864214" />
+      <entry key="H1" value="11.612968250560465" />
+      <entry key="H2" value="12.273949412958792" />
+      <entry key="H4" value="12.628432610840148" />
+      <entry key="D1" value="12.936849342025086" />
+      <entry key="W1" value="12.99094804635243" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="3L1NbfyJ07EiTaiGAgzK4j9RjqQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Database Script.schema.sql.executor": "Run",
+    "Database Script.seed_lookups.sql.executor": "Run",
+    "Database Script.test_data.sql.executor": "Run",
+    "Database Script.test_violations.sql.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "testing__branch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/samuele/SWE2/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/samuele/SWE2/untitled/src/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "SQL Dialects"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ],
+    "RunConfigurationTargetLRU": [
+      "d67173d8-16f3-49b1-86cb-fcc57f040623"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/db" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Database Script.test_violations.sql">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="UNNAMED_CLASS_CONFIGURATION" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="untitled" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="schema.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/db/schema.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="d67173d8-16f3-49b1-86cb-fcc57f040623" />
+      <method v="2" />
+    </configuration>
+    <configuration name="seed_lookups.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/db/seed_lookups.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="d67173d8-16f3-49b1-86cb-fcc57f040623" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_data.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/db/test_data.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="d67173d8-16f3-49b1-86cb-fcc57f040623" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_violations.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/db/test_violations.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="d67173d8-16f3-49b1-86cb-fcc57f040623" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="SWE2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="SWE2" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Database Script.test_violations.sql" />
+        <item itemvalue="Database Script.test_data.sql" />
+        <item itemvalue="Database Script.seed_lookups.sql" />
+        <item itemvalue="Database Script.schema.sql" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c46c9d56-8cc9-4d21-9008-469dc6de38d1" name="Changes" comment="" />
+      <created>1792617689378</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1792617689378</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="db added" />
+    <option name="LAST_COMMIT_MESSAGE" value="db added" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/untitled/src/Main.java</url>
+          <line>10</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
