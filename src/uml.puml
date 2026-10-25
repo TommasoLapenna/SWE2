@@ -1,0 +1,454 @@
+@startuml
+skinparam linetype ortho
+skinparam nodesep 30
+skinparam ranksep 60
+'skinparam classAttributeIconSize 0
+
+package model {
+    package component {
+
+        interface Component <<sealed>> {
+            + int id()
+            + String brand()
+            + String model()
+            + double price()
+            + int powerDrawWatts()
+            + ComponentType type()
+            + String name()
+        }
+
+        ' Record accessors (id(), brand(), ...) are implicitly derived from the
+        ' record components (JLS 8.10), so only explicit behaviour is listed.
+        ' Lines containing &#160; (non-breaking space) are padding so that all
+        ' records have the same height and therefore share the same top edge.
+
+        record Peripherals <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int powerDrawWatts
+            + ComponentType type()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Cooler <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int powerDrawWatts
+            - CoolerType coolingType
+            - Set<Socket> supportedSocktes
+            - int maxTdp
+            - int heightMm
+            - int radiatorSizeMm
+            + ComponentType type()
+            + int powerDrawWatts()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Case <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int powerDrawWatts
+            - Set<FormFactor> supportedForms
+            - Set<PsuFormFactor> supportedPsuForms
+            - int maxGpuLengthMm
+            - int maxCoolerHeightMm
+            - int expansionSlots
+            - int driveBays
+            - Set<Integer> supportedRadiatorsMm
+            + ComponentType type()
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Storage <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - StorageType storageType
+            - StorageTech storageTech
+            - int CapacityGb
+            + ComponentType type()
+            + int powerDrawWatts()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record PowerSupply <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int wattage
+            - EfficencyRating efficencyRating
+            - PsuFormFactor formFactor
+            - int pcieConnectors
+            + ComponentType type()
+            + int powerDrawWatts()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Memory <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - MemoryGen memoryGen
+            - int sticksQty
+            - int stickCapacityGb
+            - int frequencyMhz
+            + ComponentType type()
+            + int powerDrawWatts()
+            + int totalCapacityGb()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Motherboard <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - Socket socket
+            - String supportedChipset
+            - FormFactor formFactor
+            - MemoryGen supportedMemoryGen
+            - int ramSlots
+            - int maxMemoryGb
+            - int maxMemorySpeedMhz
+            - int pcieX16Slots
+            - int m2Slots
+            - int sataPorts
+            + ComponentType type()
+            + int powerDrawWatts()
+        }
+
+        record Gpu <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int tdpWatts
+            - int vramCapacityGb
+            - int lenghtMm
+            - double slotWidth
+            - int recommendedPsuWatts
+            - int powerConnectors
+            + ComponentType type()
+            + int powerDrawWatts()
+            &#160;
+            &#160;
+            &#160;
+            &#160;
+        }
+
+        record Cpu <<record>> {
+            - int id
+            - String brand
+            - String model
+            - double price
+            - int tdpWatts
+            - Socket socket
+            - int cores
+            - int threads
+            - double baseClockGhz
+            - Set<MemoryGen> memoryGen
+            - boolean integratedGpu
+            - boolean coolerIncluded
+            + ComponentType type()
+            + int powerDrawWatts()
+            &#160;
+            &#160;
+        }
+
+        ' ===== Layout: keep all records on one row =====
+        Peripherals -[hidden]right- Cooler
+        Cooler      -[hidden]right- Case
+        Case        -[hidden]right- Storage
+        Storage     -[hidden]right- PowerSupply
+        PowerSupply -[hidden]right- Memory
+        Memory      -[hidden]right- Motherboard
+        Motherboard -[hidden]right- Gpu
+        Gpu         -[hidden]right- Cpu
+
+        ' ===== Realizations (sealed hierarchy: Component permits all records) =====
+        Peripherals .up.|> Component
+        Cooler      .up.|> Component
+        Case        .up.|> Component
+        Storage     .up.|> Component
+        PowerSupply .up.|> Component
+        Memory      .up.|> Component
+        Motherboard .up.|> Component
+        Gpu         .up.|> Component
+        Cpu         .up.|> Component
+    }
+
+    package attribute {
+
+        ' --- Row 1: hardware compatibility ---
+        enum Socket {
+            M4
+            AM5
+            LGA1200
+            LGA1700
+            LGA1851
+        }
+        enum Chipset {
+            X870E
+            X870
+            B850
+            X670
+            X670E
+            A620
+            Z890
+            B860
+            H810
+            Z790
+            Z690
+            B760
+            B660
+            H710
+            H610
+        }
+        enum MemoryGen {
+            DDR4
+            DDR5
+        }
+        enum FormFactor {
+            MINI_ITX
+            MICRO_ATX
+            ATX
+            E_ATX
+        }
+        enum PsuFormFactor {
+            SFX
+            SFX_L
+            ATX
+        }
+
+        ' --- Row 2: classification and quality ---
+        enum CoolerType {
+            AIR
+            LIQUID
+        }
+        enum StorageType {
+            HDD
+            SDD
+        }
+        enum StorageTech {
+            SATA
+            M2_SATA
+            M2_NVME
+        }
+        enum EfficencyRating {
+            STANDARD
+            BRONZE
+            SILVER
+            GOLD
+            PLATINUM
+            TITANIUM
+        }
+        enum ComponentType {
+            CPU
+            GPU
+            RAM
+            STORAGE
+            MOTHERBOARD
+            CASE
+            POWER_SUPPLY
+            COOLING
+            PERIPHERAL
+        }
+
+        class ConstantPowerDraw <<utility>> {
+            + {static} int RAM_DEFAULT_POWER_DRAW = 3
+            + {static} int MOBO_DEFAULT_POWER_DRAW = 40
+            + {static} int STORAGE_DEFAULT_POWER_DRAW = 10
+        }
+
+        ' ===== Layout: two rows =====
+        Socket        -[hidden]right- Chipset
+        Chipset       -[hidden]right- MemoryGen
+        MemoryGen     -[hidden]right- FormFactor
+        FormFactor    -[hidden]right- PsuFormFactor
+
+        CoolerType      -[hidden]right- StorageType
+        StorageType     -[hidden]right- StorageTech
+        StorageTech     -[hidden]right- EfficencyRating
+        EfficencyRating -[hidden]right- ComponentType
+        ComponentType   -[hidden]right- ConstantPowerDraw
+
+        Socket    -[hidden]down- CoolerType
+        Chipset   -[hidden]down- StorageType
+        MemoryGen -[hidden]down- StorageTech
+    }
+    ' ===== Dependencies =====
+    ' Package level: the component package uses the attribute package
+    component ..> attribute : <<use>>
+
+    ' Only where it is not visible as an attribute type
+    Memory      ..> ConstantPowerDraw : <<use>>
+    Motherboard ..> ConstantPowerDraw : <<use>>
+    Storage     ..> ConstantPowerDraw : <<use>>
+
+    ' Keep the records above the attribute package
+    Motherboard -[hidden]down- Socket
+}
+
+package build <<ConcreteSubject, Originator>>{
+
+    package rule {
+        class Violation {
+            - String rule
+            - Severity severity
+            - String message
+            - Map<ComponentType,List<Component>> involvedComponents
+            ~ {static} Pattern PLACEHOLDER
+            + String getMessage()
+            + Severity severity()
+            + String message()
+            + Map<ComponentType,List<Component>> involvedComponents()
+            + String rule()
+        }
+
+        class ViolationList {
+            - Map<String,Violation> violations
+            + void add(Violation)
+            + void clear(String)
+            + List<Violation> violations()
+            + boolean containsWarning()
+            + boolean containsError()
+        }
+
+        enum Severity {
+            +  MESSAGE
+            +  WARNING
+            +  ERROR
+        }
+    }
+
+    class CompatibilityChecker {
+        - PcBuilder build
+        - RulesRegistry registry
+        - ViolationList violations
+        + void update(BuildEvent)
+        - void evaluateAll()
+        - void reevaluate(BuildRule)
+        + List<Violation> violations()
+    }
+
+    enum BuildEventType {
+        +  ADDED
+        +  REMOVED
+        +  RESTORED
+    }
+
+    class PcBuilder{
+        - Map<ComponentType,List<Component>> components
+        - List<Observer<BuildEvent>> observers
+        - String name
+        - BuildView view
+        + BuildView view()
+        + void addComponent(Component)
+        + boolean removeComponent(Component)
+        + String name()
+        + int totalWattage()
+        + boolean hasComponent(ComponentType)
+        + List<Component> getComponents(ComponentType)
+        + List<T> getComponents(ComponentType,Class<T>)
+        + int getComponentNumber(ComponentType)
+        + T getSingleComponent(ComponentType,Class<T>)
+        + void attach(Observer<BuildEvent>)
+        + void detach(Observer<BuildEvent>)
+        + void notify(BuildEvent)
+        - Map<ComponentType,List<Component>> immutableMapCopy()
+        - Map<ComponentType,List<Component>> mutableMapCopy(Map<ComponentType,List<Component>>)
+        + Memento createMemento()
+        + void restoreMemento(Memento)
+    }
+
+    class SnapshotHistory {
+        ~ Supplier<Memento> originatorMementoFunction
+        - Deque<Memento> undoStack
+        - Deque<Memento> redoStack
+        + void save()
+        + boolean canUndo()
+        + boolean canRedo()
+        + Memento undo()
+        + Memento redo()
+    }
+
+    class RulesRegistry {
+        - Map<String,BuildRule> rules
+        + Set<BuildRule> rules()
+        + BuildRule get(String)
+        + void add(BuildRule)
+        + boolean remove(BuildRule)
+    }
+
+    class ReadOnlyView {
+        + String name()
+        + int totalWattage()
+        + boolean hasComponent(ComponentType)
+        + List<Component> getComponents(ComponentType)
+        + int getComponentNumber(ComponentType)
+        + Map<ComponentType,List<Component>> components()
+    }
+
+    interface BuildView {
+    }
+}
+
+package pattern {
+    package memento{
+        interface Memento{}
+        interface Caretaker{}
+        interface Originator{}
+    }
+    package observers {
+        abstract class Event{}
+        interface Observer{}
+        interface Subject{}
+    }
+    package facade{
+        interface Facade{}
+    }
+    package factory{
+        interface Factory{}
+    }
+    package specification{
+    }
+}
+@enduml

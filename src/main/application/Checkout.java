@@ -1,7 +1,7 @@
 package main.application;
 
-import main.build.BuildView;
-import main.build.PcBuilder;
+import main.domain.model.BuildView;
+import main.domain.model.PcBuilder;
 
 public class Checkout {
     PcBuilder build;

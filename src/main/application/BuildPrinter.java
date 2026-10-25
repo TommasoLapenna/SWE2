@@ -1,8 +1,8 @@
 package main.application;
 
-import main.build.BuildView;
-import main.model.attribute.ComponentType;
-import main.model.component.Component;
+import main.domain.model.BuildView;
+import main.domain.model.attribute.ComponentType;
+import main.domain.model.component.Component;
 
 import java.util.ArrayList;
 import java.util.List;

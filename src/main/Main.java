@@ -1,10 +1,10 @@
 package main;
 
 import main.application.PcBuildSession;
-import main.build.rule.Severity;
-import main.build.rule.Violation;
-import main.model.attribute.*;
-import main.model.component.*;
+import main.domain.rule.Severity;
+import main.domain.rule.Violation;
+import main.domain.model.attribute.*;
+import main.domain.model.component.*;
 
 import java.util.EnumMap;
 import java.util.Map;

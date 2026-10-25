@@ -1,0 +1,79 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="bQf0aiKgWhyvBrUEOigM">
+    <mxGraphModel dx="2140" dy="789" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hDtk2je1uMuflhCOBRLm-12" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="440" />
+              <mxPoint x="30" y="440" />
+            </Array>
+            <mxPoint x="375" y="95.99999999999977" as="sourcePoint" />
+            <mxPoint x="30" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="PcBuildSession" vertex="1">
+          <mxGeometry height="224" width="210" x="360" y="40" as="geometry">
+            <mxRectangle height="30" width="120" x="250" y="50" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-2" parent="hDtk2je1uMuflhCOBRLm-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- main.main.logic: PcBuilder&lt;div&gt;- check: CompatiityChecker&lt;br&gt;&lt;div&gt;- history: SnapshotHistory&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="210" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-3" parent="hDtk2je1uMuflhCOBRLm-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="210" y="86" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-4" parent="hDtk2je1uMuflhCOBRLm-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ PcBuildSession(name: String&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;)&lt;/span&gt;&lt;div&gt;+ add(c: Component): void&lt;/div&gt;&lt;div&gt;+ remove(c: Component): boolean&lt;/div&gt;&lt;div&gt;+ undo(): boolean&lt;/div&gt;&lt;div&gt;+ redo(): boolean&lt;/div&gt;&lt;div&gt;+ print(): void&lt;/div&gt;&lt;div&gt;// checkout, getbuild..&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="210" y="94" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;&amp;lt;&amp;lt; Subject&amp;lt;BuildEvent&amp;gt;, Originator&amp;lt;Memento&amp;gt; &amp;gt;&amp;gt;&lt;/div&gt;PcBuilder" vertex="1">
+          <mxGeometry height="374" width="870" x="-670" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-6" parent="hDtk2je1uMuflhCOBRLm-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- name: String&lt;div&gt;- components: Map&amp;lt;ComponentType, List&amp;lt;Component&amp;gt;&lt;/div&gt;&lt;div&gt;- observers: List&amp;lt;Observer&amp;gt;&lt;/div&gt;&lt;div&gt;- view: BuildView&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="870" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-7" parent="hDtk2je1uMuflhCOBRLm-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="870" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-8" parent="hDtk2je1uMuflhCOBRLm-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;+ view(): BuildView&lt;/div&gt;&lt;div&gt;+ name(): String&lt;/div&gt;+ addComponent(c: Component): void&lt;div&gt;+ removeComponent(c: Coponent): boolean&lt;/div&gt;&lt;div&gt;+ totalWattage(): int&lt;/div&gt;&lt;div&gt;+ hasComponent(componentType: ComponentType): boolean&lt;/div&gt;&lt;div&gt;+ getComponents(componentType: ComponentType): List&amp;lt;Component&amp;gt;&lt;/div&gt;&lt;div&gt;+ getComponents(componentType: ComponentType, componentClass: Class&amp;lt;T&amp;gt;): &amp;lt;T extends Component&amp;gt; List&amp;lt;T&amp;gt; //not used???&lt;/div&gt;&lt;div&gt;+&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;getSingleComponent(ComponentType type, Class&amp;lt;T&amp;gt; componentClass): &amp;lt;T extends&lt;/span&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;ComponentType type, Class&amp;lt;T&amp;gt; componentClass&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;Component&amp;gt; List&amp;lt;T&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;+ attach(o: Observer&amp;lt;BuildEvent&amp;gt;): void&lt;/div&gt;&lt;div&gt;+ detach(o: Observer&amp;lt;BuildEvent&amp;gt;): void&lt;/div&gt;&lt;div&gt;+ notify(event: BuildEvent): void //to be made private???&lt;/div&gt;&lt;div&gt;- immutableCopy():&amp;nbsp;Map&amp;lt;ComponentType, List&amp;lt;Component&amp;gt;&amp;gt;&lt;br&gt;- mutableCopy():&amp;nbsp;Map&amp;lt;ComponentType, List&amp;lt;Component&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;+ createMemento: Memento&lt;/div&gt;&lt;div&gt;+ restoreMemento(memento: Memento): void&lt;/div&gt;&lt;div&gt;//MEMENTO PRIVATE INTERFACE&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="256" width="870" y="118" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-10" edge="1" parent="1" source="hDtk2je1uMuflhCOBRLm-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=-0.012;exitY=0.218;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;" target="hDtk2je1uMuflhCOBRLm-5">
+          <mxGeometry relative="1" x="-0.8102" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-11" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt; Observer&amp;lt;BuildEvent&amp;gt; &amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;CompatibilityCheker&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- main.main.logic: PcBuilder&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- registry: RulesRegistry&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- violations: ViolantionList&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ CompatibilityChecker(main.main.logic: PcBuilder, rules: List&amp;lt;BuildRules&amp;gt;)&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ update(event: BuildEvent): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- evaluateAll(): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- reevaluate(rule: BuildRule): void&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ violations: List&amp;lt;Violation&amp;gt;&lt;/p&gt;" vertex="1">
+          <mxGeometry height="190" width="370" x="-170" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-13" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Classname" vertex="1">
+          <mxGeometry height="86" width="160" x="-570" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-14" parent="hDtk2je1uMuflhCOBRLm-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ field: type" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-15" parent="hDtk2je1uMuflhCOBRLm-13" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-16" parent="hDtk2je1uMuflhCOBRLm-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ method(type): type" vertex="1">
+          <mxGeometry height="26" width="160" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-25" edge="1" parent="1" source="hDtk2je1uMuflhCOBRLm-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;shape=flexArrow;" target="hDtk2je1uMuflhCOBRLm-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-21" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="InvertedIndexMap&amp;lt;K exteds Enum&amp;lt;K&amp;gt;, V&amp;gt;" vertex="1">
+          <mxGeometry height="134" width="280" x="-610" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-22" parent="hDtk2je1uMuflhCOBRLm-21" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- index: Map&amp;lt;K, Set&amp;lt;V&amp;gt;&amp;gt;&lt;div&gt;- keysOf: Function &amp;lt;V, set&amp;lt;K&amp;gt;&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="280" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-23" parent="hDtk2je1uMuflhCOBRLm-21" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+          <mxGeometry height="8" width="280" y="66" as="geometry" />
+        </mxCell>
+        <mxCell id="hDtk2je1uMuflhCOBRLm-24" parent="hDtk2je1uMuflhCOBRLm-21" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ add(value: V): void&lt;div&gt;+ remove(V value): boolean&lt;/div&gt;&lt;div&gt;+ lookup(keys: Set&amp;lt;K&amp;gt;): Set&amp;lt;V&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="280" y="74" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

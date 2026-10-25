@@ -1,9 +1,9 @@
 package main.application;
 
-import main.build.rule.BuildRule;
-import main.build.rule.Severity;
-import main.build.rule.specification.Specs;
-import main.model.attribute.ComponentType;
+import main.domain.rule.BuildRule;
+import main.domain.rule.Severity;
+import main.domain.rule.specification.Specs;
+import main.domain.model.attribute.ComponentType;
 
 import java.util.List;
 

@@ -1,0 +1,23 @@
+package main.domain.model.component;
+
+import main.domain.model.attribute.ComponentType;
+import main.domain.model.attribute.CoolerType;
+import main.domain.model.attribute.Socket;
+
+import java.util.Set;
+
+public record Cooler (
+        int id, String brand, String model, double price, int powerDrawWatts,
+        CoolerType coolingType,
+        Set<Socket> supportedSocktes,
+        int maxTdp,
+        int heightMm, // For AIR ones
+        int radiatorSizeMm // For LIQUID ones, TODO checks on them
+    ) implements Component {
+
+    @Override
+    public ComponentType type() { return ComponentType.COOLING; }
+
+    @Override
+    public int powerDrawWatts() { return 5; }
+}

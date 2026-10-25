@@ -1,7 +1,7 @@
 package test.model.component;
 
-import main.model.attribute.MemoryGen;
-import main.model.component.Memory;
+import main.domain.model.attribute.MemoryGen;
+import main.domain.model.component.Memory;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

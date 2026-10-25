@@ -1,12 +1,11 @@
 package main.application;
 
-import main.build.BuildView;
-import main.build.CompatibilityChecker;
-import main.build.PcBuilder;
-import main.build.rule.Severity;
-import main.build.rule.Violation;
-import main.build.SnapshotHistory;
-import main.model.component.Component;
+import main.domain.model.BuildView;
+import main.domain.rule.CompatibilityChecker;
+import main.domain.model.PcBuilder;
+import main.domain.rule.Severity;
+import main.domain.rule.Violation;
+import main.domain.model.component.Component;
 import main.pattern.facade.Facade;
 import java.util.List;
 
