@@ -1,0 +1,40 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="kQlMk93Z2Y-rTRHu-Kq0">
+    <mxGraphModel dx="865" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="haNXQfQUTRGbu9plVRx_-9" edge="1" parent="1" source="haNXQfQUTRGbu9plVRx_-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="haNXQfQUTRGbu9plVRx_-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Utente" vertex="1">
+          <mxGeometry height="60" width="30" x="160" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-4" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="Domain Model" vertex="1">
+          <mxGeometry height="95" width="120" x="440" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-5" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="Application" vertex="1">
+          <mxGeometry height="95" width="120" x="440" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-7" parent="1" style="html=1;whiteSpace=wrap;" value="Interfaccia (GUI)" vertex="1">
+          <mxGeometry height="50" width="110" x="270" y="133" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-8" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="ORM" vertex="1">
+          <mxGeometry height="95" width="120" x="651" y="265" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-11" edge="1" parent="1" source="haNXQfQUTRGbu9plVRx_-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0.105;entryDx=0;entryDy=0;entryPerimeter=0;" target="haNXQfQUTRGbu9plVRx_-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-12" edge="1" parent="1" source="haNXQfQUTRGbu9plVRx_-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=120;exitDy=54.5;exitPerimeter=0;entryX=0.564;entryY=0.188;entryDx=0;entryDy=0;entryPerimeter=0;" target="haNXQfQUTRGbu9plVRx_-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-13" edge="1" parent="1" source="haNXQfQUTRGbu9plVRx_-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=54.5;exitPerimeter=0;entryX=0;entryY=0;entryDx=120;entryDy=54.5;entryPerimeter=0;" target="haNXQfQUTRGbu9plVRx_-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="haNXQfQUTRGbu9plVRx_-14" edge="1" parent="1" source="haNXQfQUTRGbu9plVRx_-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=54.5;entryPerimeter=0;" target="haNXQfQUTRGbu9plVRx_-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
