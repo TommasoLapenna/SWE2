@@ -1,0 +1,819 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[a4paper, margin=2.2cm]{geometry}
+
+\usepackage{tabularx}
+
+\usepackage{array}
+
+\usepackage{hyperref}
+
+
+
+\setlength{\parindent}{0pt}
+
+\setlength{\parskip}{6pt}
+
+\renewcommand{\arraystretch}{1.35}
+
+
+
+\begin{document}
+
+
+
+\begin{center}
+
+    {\LARGE \textbf{PC Builder Online --- Casi d'uso}}\\[4pt]
+
+    {\large Documento basato sull'architettura SWE2}
+
+\end{center}
+
+
+
+\vspace{8pt}
+
+
+
+% UC1
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC1 --- Crea sessione di build}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente avvia una nuova sessione di configurazione PC. Il sistema crea una \texttt{PcBuildSession} vuota con \texttt{PcBuilder} e \texttt{SnapshotHistory} inizializzati. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & L'utente è autenticato nel sistema. \\
+
+\hline
+
+Flusso base & 
+
+1. L'utente seleziona «Nuova build».\newline
+
+2. Il sistema crea una \texttt{PcBuildSession} con \texttt{PcBuilder} vuoto.\newline
+
+3. Il sistema inizializza la \texttt{SnapshotHistory}.\newline
+
+4. Il sistema mostra l'interfaccia di configurazione con tutti gli slot vuoti. \\
+
+\hline
+
+Flussi alternativi & 1a. L'utente sceglie di caricare una build salvata: il sistema ripristina la sessione precedente ($\rightarrow$ UC6). \\
+
+\hline
+
+Post-condizioni & Una sessione di build attiva è disponibile. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC2
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC2 --- Aggiungi componente}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente aggiunge un componente dal catalogo alla build corrente. Il sistema salva uno snapshot e verifica la compatibilità automaticamente. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. Il catalogo contiene almeno un componente. \\
+
+\hline
+
+Flusso base & 
+
+1. L'utente esplora il catalogo e seleziona un componente.\newline
+
+2. L'utente clicca «Aggiungi alla build».\newline
+
+3. Il sistema aggiunge il componente tramite \texttt{PcBuildSession.add()}.\newline
+
+4. Il sistema salva uno snapshot nella \texttt{SnapshotHistory} «include UC-Snapshot».\newline
+
+5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline
+
+6. Il sistema aggiorna la vista della build e mostra eventuali violazioni. \\
+
+\hline
+
+Flussi alternativi & 
+
+3a. La cardinalità massima per quel tipo è già raggiunta: il sistema mostra un errore e non aggiunge il componente.\newline
+
+5a. La verifica rileva violazioni: il sistema le elenca senza bloccare l'aggiunta. \\
+
+\hline
+
+Post-condizioni & Il componente è nella build. Uno snapshot è salvato. Le violazioni sono aggiornate. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC3
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC3 --- Rimuovi componente}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente rimuove un componente dalla build corrente. Il sistema salva uno snapshot e aggiorna la verifica di compatibilità. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. La build contiene almeno un componente. \\
+
+\hline
+
+Flusso base & 
+
+1. L'utente seleziona un componente nella build corrente.\newline
+
+2. L'utente clicca «Rimuovi».\newline
+
+3. Il sistema rimuove il componente tramite \texttt{PcBuildSession.remove()}.\newline
+
+4. Il sistema salva uno snapshot «include UC-Snapshot».\newline
+
+5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline
+
+6. Il sistema aggiorna la vista della build. \\
+
+\hline
+
+Flussi alternativi & 3a. Il componente non è presente nella build: il sistema mostra un errore. \\
+
+\hline
+
+Post-condizioni & Il componente non è più nella build. Snapshot salvato. Violazioni aggiornate. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC4
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC4 --- Annulla modifica (undo)}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente annulla l'ultima modifica apportata alla build, ripristinando lo stato precedente tramite \texttt{SnapshotHistory}. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. La \texttt{SnapshotHistory} contiene almeno uno snapshot precedente. \\
+
+\hline
+
+Flusso base & 
+
+1. L'utente clicca «Annulla».\newline
+
+2. Il sistema ripristina lo stato precedente tramite \texttt{PcBuildSession.undo()}.\newline
+
+3. Il sistema esegue la verifica di compatibilità sullo stato ripristinato «include UC-Verifica».\newline
+
+4. Il sistema aggiorna la vista della build. \\
+
+\hline
+
+Flussi alternativi & 2a. Non esistono snapshot precedenti: il sistema disabilita il pulsante «Annulla» e non esegue alcuna azione. \\
+
+\hline
+
+Post-condizioni & La build è ripristinata allo stato precedente. Le violazioni sono aggiornate. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC5
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC5 --- Ripristina modifica (redo)}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente ripristina una modifica precedentemente annullata tramite la \texttt{SnapshotHistory}. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. È stata eseguita almeno un'operazione di undo. \\
+
+\hline
+
+Flusso base & 
+
+1. L'utente clicca «Ripristina».\newline
+
+2. Il sistema recupera lo stato successivo tramite \texttt{PcBuildSession.redo()}.\newline
+
+3. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline
+
+4. Il sistema aggiorna la vista della build. \\
+
+\hline
+
+Flussi alternativi & 2a. Non esistono snapshot successivi: il sistema disabilita il pulsante «Ripristina». \\
+
+\hline
+
+Post-condizioni & La build è ripristinata allo stato successivo. Le violazioni sono aggiornate. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC6
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC6 --- Visualizza build}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'utente visualizza la configurazione corrente della build con tutti i componenti selezionati, le violazioni di compatibilità e il wattaggio totale. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. \\
+
+\hline
+
+Flusso base & 
+
+1. Il sistema mostra i componenti presenti tramite \texttt{BuildView} (\texttt{getBuild()}).\newline
+
+2. Il sistema mostra le violazioni di compatibilità «include UC7».\newline
+
+3. Il sistema mostra il wattaggio totale (\texttt{totalWattage()}). \\
+
+\hline
+
+Flussi alternativi & 1a. La build è vuota: il sistema mostra gli slot vuoti per ogni \texttt{ComponentType}. \\
+
+\hline
+
+Post-condizioni & L'utente ha una vista aggiornata della build corrente. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC7
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC7 --- Consulta violazioni}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & Il sistema mostra la lista delle regole di compatibilità violate nella build corrente, calcolate dal \texttt{CompatibilityChecker} tramite le 40 \texttt{BuildRule} di \texttt{DefaultRules}. \\
+
+\hline
+
+Livello & Subfunction \\
+
+\hline
+
+Attori & Utente (indiretto, tramite UC6) \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. La verifica di compatibilità è stata eseguita. \\
+
+\hline
+
+Flusso base & 
+
+1. Il sistema recupera le violazioni tramite \texttt{PcBuildSession.getViolations()}.\newline
+
+2. Il sistema mostra la lista con la descrizione di ogni regola violata.\newline
+
+3. Se non ci sono violazioni, mostra «Nessun problema rilevato». \\
+
+\hline
+
+Flussi alternativi & (nessuno) \\
+
+\hline
+
+Post-condizioni & L'utente è informato delle incompatibilità presenti nella build. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC8
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC8 --- Visualizza prezzo}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & Il sistema mostra il prezzo di mercato suggerito della build corrente, calcolato come somma dei prezzi indicativi dei componenti. Il prezzo non è vincolante. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Utente \\
+
+\hline
+
+Pre-condizioni & Una sessione di build è attiva. \\
+
+\hline
+
+Flusso base & 
+
+1. Il sistema somma i prezzi di tutti i componenti nella build.\newline
+
+2. Il sistema mostra il totale con la dicitura «Prezzo di mercato suggerito».\newline
+
+3. Il sistema mostra il disclaimer: «I prezzi sono indicativi e soggetti a variazione». \\
+
+\hline
+
+Flussi alternativi & 1a. La build è vuota: il sistema mostra €0,00. \\
+
+\hline
+
+Post-condizioni & L'utente conosce la stima del prezzo della configurazione. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC9
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC9 --- Aggiungi al catalogo}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'operatore aggiunge un nuovo componente al catalogo del sistema, specificandone tutte le caratteristiche tecniche. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Operatore \\
+
+\hline
+
+Pre-condizioni & L'operatore è autenticato. Il componente non è già presente nel catalogo. \\
+
+\hline
+
+Flusso base & 
+
+1. L'operatore seleziona «Aggiungi componente» e sceglie il tipo.\newline
+
+2. Il sistema mostra il form con i campi richiesti (socket, form factor, ecc.).\newline
+
+3. L'operatore compila i campi e conferma.\newline
+
+4. Il sistema valida i dati inseriti.\newline
+
+5. Il sistema aggiunge il componente al catalogo.\newline
+
+6. Il sistema mostra la conferma dell'operazione. \\
+
+\hline
+
+Flussi alternativi & 
+
+4a. I dati non sono validi (campo obbligatorio mancante): il sistema segnala l'errore e non salva.\newline
+
+5a. Un componente identico esiste già: il sistema segnala il duplicato. \\
+
+\hline
+
+Post-condizioni & Il componente è disponibile nel catalogo per tutti gli utenti. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC10
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC10 --- Rimuovi dal catalogo}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'operatore rimuove un componente esistente dal catalogo. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Operatore \\
+
+\hline
+
+Pre-condizioni & L'operatore è autenticato. Il componente esiste nel catalogo. \\
+
+\hline
+
+Flusso base & 
+
+1. L'operatore cerca e seleziona il componente nel catalogo.\newline
+
+2. L'operatore seleziona «Rimuovi».\newline
+
+3. Il sistema chiede conferma.\newline
+
+4. L'operatore conferma.\newline
+
+5. Il sistema rimuove il componente dal catalogo. \\
+
+\hline
+
+Flussi alternativi & 4a. L'operatore annulla: il sistema non esegue alcuna modifica. \\
+
+\hline
+
+Post-condizioni & Il componente non è più disponibile nel catalogo. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC11
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC11 --- Modifica componente nel catalogo}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'operatore modifica le informazioni di un componente esistente nel catalogo. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Operatore \\
+
+\hline
+
+Pre-condizioni & L'operatore è autenticato. Il componente esiste nel catalogo. \\
+
+\hline
+
+Flusso base & 
+
+1. L'operatore cerca e seleziona il componente.\newline
+
+2. Il sistema mostra il form con i dati attuali.\newline
+
+3. L'operatore modifica i campi desiderati e conferma.\newline
+
+4. Il sistema valida i nuovi dati.\newline
+
+5. Il sistema aggiorna il componente nel catalogo. \\
+
+\hline
+
+Flussi alternativi & 4a. I dati modificati non sono validi: il sistema segnala l'errore e non salva. \\
+
+\hline
+
+Post-condizioni & Il componente nel catalogo riflette i nuovi dati. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\vspace{10pt}
+
+
+
+% UC12
+
+\noindent
+
+\begin{tabularx}{\textwidth}{|>{\bfseries}p{3.8cm}|X|}
+
+\hline
+
+\multicolumn{2}{|l|}{\textbf{UC12 --- Consulta catalogo}} \\
+
+\hline
+
+Campo & \textbf{Contenuto} \\
+
+\hline
+
+Descrizione & L'operatore visualizza la lista completa dei componenti nel catalogo, con possibilità di filtrare per tipo. \\
+
+\hline
+
+Livello & User goal \\
+
+\hline
+
+Attori & Operatore \\
+
+\hline
+
+Pre-condizioni & L'operatore è autenticato. \\
+
+\hline
+
+Flusso base & 
+
+1. L'operatore accede alla sezione catalogo.\newline
+
+2. Il sistema mostra tutti i componenti suddivisi per tipo (CPU, GPU, RAM, \dots).\newline
+
+3. L'operatore può filtrare per tipo, marca o prezzo. \\
+
+\hline
+
+Flussi alternativi & 2a. Il catalogo è vuoto: il sistema mostra «Nessun componente presente». \\
+
+\hline
+
+Post-condizioni & L'operatore ha una vista aggiornata del catalogo. \\
+
+\hline
+
+Test & \\
+
+\hline
+
+\end{tabularx}
+
+
+
+\end{document}
