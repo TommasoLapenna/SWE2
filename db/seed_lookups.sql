@@ -1,6 +1,5 @@
 -- db/seed_lookups.sql  (v2: senza component_type, che non serve piu')
 -- I valori devono coincidere ESATTAMENTE con i nomi (name()) degli enum Java.
--- Presuppone gli enum gia corretti: SDD -> SSD, M4 -> AM4 (da confermare con i compagni).
 -- Se aggiungono un valore a un enum, aggiungere qui la riga corrispondente.
 PRAGMA foreign_keys = ON;
 

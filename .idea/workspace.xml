@@ -5,31 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c46c9d56-8cc9-4d21-9008-469dc6de38d1" name="Changes" comment="db added">
-      <change afterPath="$PROJECT_DIR$/.idea/SWE2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d67173d8-16f3-49b1-86cb-fcc57f040623.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/d67173d8-16f3-49b1-86cb-fcc57f040623/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/pc:builder.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/seed_lookups.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/test_data.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/db/test_violations.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/untitled/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/untitled/untitled.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SWE.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/build/specification/Specs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/build/specification/Specs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/attribute/Socket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/attribute/Socket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/attribute/StorageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/attribute/StorageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +98,9 @@
       <entry key="D1" value="12.936849342025086" />
       <entry key="W1" value="12.99094804635243" />
     </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
