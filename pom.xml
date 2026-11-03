@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pcconfigurator</groupId>
+  <artifactId>pc-configurator</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <!-- DEVE coincidere con la versione del JDK del progetto (File > Project Structure).
+         Il codice usa sealed interface e record, quindi serve almeno 17. -->
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- Driver JDBC per SQLite (contiene SQLite stesso, nessuna installazione) -->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.45.1.0</version>
+    </dependency>
+
+    <!-- Test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- JavaFX: NON ancora incluso. Lo aggiunge chi sviluppa la GUI
+         (org.openjfx:javafx-controls e javafx-fxml, con il plugin javafx-maven-plugin). -->
+  </dependencies>
+
+  <build>
+    <!-- Manteniamo la struttura attuale: nessun file da spostare. -->
+    <sourceDirectory>src</sourceDirectory>
+    <!-- I test stanno FUORI da src/ (altrimenti verrebbero compilati come codice normale). -->
+    <testSourceDirectory>test</testSourceDirectory>
+
+    <!-- Gli script del DB finiscono nel classpath, cosi' l'app puo' creare il database
+         al primo avvio. Solo schema e seed: i file di test usano comandi .print
+         che funzionano solo nel client sqlite3. -->
+    <resources>
+      <resource>
+        <directory>db</directory>
+        <targetPath>db</targetPath>
+        <includes>
+          <include>schema.sql</include>
+          <include>seed_lookups.sql</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+    </plugins>
+  </build>
+</project>

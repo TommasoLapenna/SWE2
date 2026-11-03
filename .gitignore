@@ -26,5 +26,22 @@ bin/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
+# Build
+target/
+# Database generato (si ricrea da db/schema.sql e db/seed_lookups.sql)
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# IntelliJ: stato personale
+.idea/workspace.xml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/
+.idea/shelf/
+.idea/httpRequests/
+
+# Sistema operativo
 .DS_Store
+Thumbs.db
