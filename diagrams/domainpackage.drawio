@@ -1,0 +1,35 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36">
+  <diagram name="Page-1" id="3FF3IETl1m-9p3MyYHzJ">
+    <mxGraphModel dx="1211" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bkViXyt3acgv3hKl2yPX-2" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;align=center;" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="510" width="780" x="120" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-11" edge="1" parent="1" source="bkViXyt3acgv3hKl2yPX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;" target="bkViXyt3acgv3hKl2yPX-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-3" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="Event" vertex="1">
+          <mxGeometry height="110" width="170" x="220" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-10" edge="1" parent="1" source="bkViXyt3acgv3hKl2yPX-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="bkViXyt3acgv3hKl2yPX-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-4" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="Model" vertex="1">
+          <mxGeometry height="110" width="170" x="425" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-5" parent="1" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" value="Rule" vertex="1">
+          <mxGeometry height="110" width="170" x="640" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="bkViXyt3acgv3hKl2yPX-13" edge="1" parent="1" source="bkViXyt3acgv3hKl2yPX-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=170;entryDy=62;entryPerimeter=0;exitX=0;exitY=0;exitDx=105;exitDy=14;exitPerimeter=0;" target="bkViXyt3acgv3hKl2yPX-4">
+          <mxGeometry relative="1" x="0.1871" as="geometry">
+            <Array as="points">
+              <mxPoint x="745" y="222" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -7,7 +7,6 @@ import main.domain.model.attribute.ComponentType;
 import main.domain.model.component.Component;
 import main.pattern.observer.Observer;
 
-
 import java.util.*;
 
 public class CompatibilityChecker implements Observer<BuildEvent> {
