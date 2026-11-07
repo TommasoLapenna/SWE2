@@ -13,7 +13,7 @@ public final class BuildPrinter {
 
     public static String render(BuildView build) {
         String title  = "PC BUILD: " + build.name();
-        String footer = "Total draw: " + build.totalWattage() + " W";
+        String footer = "Total draw: " + build.totalWattage() + " W | Total Price: "+ build.totalPrice();
 
         List<String> headers = new ArrayList<>();
         List<List<String>> bodies = new ArrayList<>();

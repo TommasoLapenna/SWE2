@@ -26,9 +26,8 @@ public final class Specs implements Factory {
 
     public static BuildSpecification mutipleExcatclyOne(ComponentType... t) {
         BuildSpecification res = new ComponentCountSpecification(t[0], 1, 1);
-        for (int i = 1; i < t.length; i++){
+        for (int i = 1; i < t.length; i++)
             res = res.and(new ComponentCountSpecification(t[i], 1, 1));
-        }
         return res;
     }
 
@@ -171,7 +170,7 @@ public final class Specs implements Factory {
     );
 
     public static BuildSpecification hasSolidStateDriveSpecification = new PredicateSpecification(
-            b -> b.getComponents(ComponentType.STORAGE, Storage.class).stream().anyMatch(d -> d.storageType() == StorageType.SDD),
+            b -> b.getComponents(ComponentType.STORAGE, Storage.class).stream().anyMatch(d -> d.storageType() == StorageType.SSD),
             Set.of(ComponentType.STORAGE)
     );
 

@@ -19,7 +19,7 @@ public class Main {
         Component b850 = new Motherboard(2, "ASUS", "TUF GAMING B850-PLUS", 239.0, Socket.AM5, Chipset.B850.name(), FormFactor.ATX, MemoryGen.DDR5, 4, 192, 8000, 2, 3, 4);
         Component ddr5 = new Memory(3, "Corsair", "Vengeance DDR5-6000 2x16GB", 109.0, MemoryGen.DDR5, 2, 16, 6000);
         Component ddr4 = new Memory(4, "Kingston", "Fury DDR4-3200 2x8GB", 49.0, MemoryGen.DDR4, 2, 8, 3200);
-        Component nvme = new Storage(5, "Samsung", "990 Pro 1TB", 99.0, StorageType.SDD, StorageTech.M2_NVME, 1000);
+        Component nvme = new Storage(5, "Samsung", "990 Pro 1TB", 99.0, StorageType.SSD, StorageTech.M2_NVME, 1000);
         Component hdd = new Storage(6, "Seagate", "Barracuda 2TB", 55.0, StorageType.HDD, StorageTech.SATA, 2000);
         Component itxCase = new Case(7, "Cooler Master", "NR200P", 99.0, 5, Set.of(FormFactor.MINI_ITX), Set.of(PsuFormFactor.SFX, PsuFormFactor.SFX_L), 330, 155, 2, 2, Set.of(240, 280));
         Component atxCase = new Case(8, "Fractal Design", "Meshify 2 Compact", 129.0, 6, Set.of(FormFactor.MICRO_ATX, FormFactor.ATX), Set.of(PsuFormFactor.ATX), 330, 169, 7, 4, Set.of(240, 280, 360));
@@ -115,6 +115,6 @@ public class Main {
         Map<Severity, Integer> bySeverity = new EnumMap<>(Severity.class);
         for (Violation v : session.getViolations())
             bySeverity.merge(v.severity(), 1, Integer::sum);
-        System.out.println("   [draw=" + session.getBuild().totalWattage() + " W, violations=" + bySeverity + "]");
+        System.out.println("   [draw=" + session.getBuild().totalWattage() + "W , Price: "+ session.getBuild().totalPrice()+"€ , violations=" + bySeverity + "]");
     }
 }

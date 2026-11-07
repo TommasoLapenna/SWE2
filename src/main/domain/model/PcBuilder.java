@@ -6,14 +6,13 @@ import main.domain.model.attribute.ComponentType;
 import main.domain.model.component.Component;
 import main.pattern.memento.Memento;
 import main.pattern.memento.Originator;
-import main.pattern.observer.Observer;
 import main.pattern.observer.Subject;
 
 import java.util.*;
 
-public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
+public class PcBuilder extends Subject<BuildEvent> implements Originator<Memento> {
     private Map<ComponentType, List<Component>> components = new EnumMap<>(ComponentType.class);
-    private final List<Observer<BuildEvent>> observers = new ArrayList<Observer<BuildEvent>>();
+    //observers = new ArrayList<Observer<BuildEvent>>();
     private String name;
 
     private final BuildView view = new ReadOnlyView();
@@ -31,6 +30,7 @@ public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
     private final class ReadOnlyView implements BuildView {
         @Override public String name()                        { return PcBuilder.this.name(); }
         @Override public int totalWattage()                   { return PcBuilder.this.totalWattage(); }
+        @Override public double totalPrice() {return PcBuilder.this.totalPrice(); }
         @Override public boolean hasComponent(ComponentType t){ return PcBuilder.this.hasComponent(t); }
         @Override public List<Component> getComponents(ComponentType t) { return PcBuilder.this.getComponents(t); }
         @Override public int getComponentNumber(ComponentType t) { return PcBuilder.this.getComponentNumber(t); }
@@ -71,6 +71,17 @@ public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
         return totalWattage;
     }
 
+    public double totalPrice() {
+        /*
+        return components.values()
+                .stream()
+                .mapToDouble(
+                    c -> c.stream().mapToDouble(i -> i.price()).sum())
+                .sum();
+        */
+        return components.values().stream().mapToDouble(c -> c.stream().mapToDouble(Component::price).sum()).sum();
+    }
+
     public boolean hasComponent(ComponentType componentType) {
         return !components.get(componentType).isEmpty();
     }
@@ -106,7 +117,7 @@ public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
         }
         return componentClass.cast(c);
     }
-
+/*
     @Override
     public void attach(Observer<BuildEvent> o) {
         observers.add(o);
@@ -123,7 +134,7 @@ public class PcBuilder implements Subject <BuildEvent>, Originator<Memento> {
             o.update(event);
         }
     }
-
+*/
     private Map<ComponentType, List<Component>> immutableMapCopy() {
         Map<ComponentType, List<Component>> copy = new EnumMap<>(ComponentType.class);
         components.forEach((type, list) -> copy.put(type, List.copyOf(list)));

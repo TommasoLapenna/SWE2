@@ -11,6 +11,7 @@ import java.util.Map;
 public interface BuildView {
     String name();
     int totalWattage();
+    double totalPrice();
     boolean hasComponent(ComponentType t);
     List<Component> getComponents(ComponentType t);
     int getComponentNumber(ComponentType t);
