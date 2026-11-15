@@ -3,18 +3,13 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
-
-target/
-out/
-*.db
-*.db-journal
-*.db-wal
-*.db-shm
-*.zip
 .idea/workspace.xml
 .idea/dataSources.local.xml
 .idea/dataSources.xml
 .idea/dataSources/
+.idea/data_source_mapping.xml
+.idea/shelf/
+.idea/httpRequests/
 
 ### Eclipse ###
 .apt_generated
@@ -39,22 +34,18 @@ bin/
 ### VS Code ###
 .vscode/
 
-# Build
+### Maven ###
 target/
-# Database generato (si ricrea da db/schema.sql e db/seed_lookups.sql)
+
+### Database generato (si ricrea da db/schema.sql e db/seed_lookups.sql) ###
 *.db
 *.db-journal
 *.db-wal
 *.db-shm
 
-# IntelliJ: stato personale
-.idea/workspace.xml
-.idea/dataSources.local.xml
-.idea/dataSources.xml
-.idea/dataSources/
-.idea/shelf/
-.idea/httpRequests/
+### Archivi ###
+*.zip
 
-# Sistema operativo
+### Sistema operativo ###
 .DS_Store
-Thumbs.db.idea/data_source_mapping.xml
+Thumbs.db
