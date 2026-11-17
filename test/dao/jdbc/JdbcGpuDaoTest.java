@@ -1,9 +1,10 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
 import db.PersistenceException;
-import model.component.Gpu;
+import main.dao.jdbc.GpuDao;
+import main.domain.model.component.Gpu;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JdbcGpuDaoTest extends ComponentDaoContractTest<Gpu> {
 
-    @Override ComponentDao<Gpu> createDao(DatabaseConnection db) { return new JdbcGpuDao(db); }
+    @Override ComponentDao<Gpu> createDao(DatabaseConnection db) { return new GpuDao(db); }
 
     @Override Gpu sample(String model) {
         return new Gpu(0, "NVIDIA", model, 599.0, 200, 12, 244, 2.5, 650, 1);

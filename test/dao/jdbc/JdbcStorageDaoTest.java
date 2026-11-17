@@ -1,11 +1,12 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
 import db.PersistenceException;
-import model.attribute.StorageTech;
-import model.attribute.StorageType;
-import model.component.Storage;
+import main.dao.jdbc.StorageDao;
+import main.domain.model.attribute.StorageTech;
+import main.domain.model.attribute.StorageType;
+import main.domain.model.component.Storage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JdbcStorageDaoTest extends ComponentDaoContractTest<Storage> {
 
-    @Override ComponentDao<Storage> createDao(DatabaseConnection db) { return new JdbcStorageDao(db); }
+    @Override ComponentDao<Storage> createDao(DatabaseConnection db) { return new StorageDao(db); }
 
     @Override Storage sample(String model) {
         return new Storage(0, "Samsung", model, 99.0, StorageType.SSD, StorageTech.M2_NVME, 1000);

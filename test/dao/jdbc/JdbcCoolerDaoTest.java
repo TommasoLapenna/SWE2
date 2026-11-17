@@ -1,10 +1,11 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
-import model.attribute.CoolerType;
-import model.attribute.Socket;
-import model.component.Cooler;
+import main.dao.jdbc.CoolerDao;
+import main.domain.model.attribute.CoolerType;
+import main.domain.model.attribute.Socket;
+import main.domain.model.component.Cooler;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JdbcCoolerDaoTest extends ComponentDaoContractTest<Cooler> {
 
-    @Override ComponentDao<Cooler> createDao(DatabaseConnection db) { return new JdbcCoolerDao(db); }
+    @Override ComponentDao<Cooler> createDao(DatabaseConnection db) { return new CoolerDao(db); }
 
     @Override Cooler sample(String model) {      // AIR
         return new Cooler(0, "Noctua", model, 109.0, 5, CoolerType.AIR,

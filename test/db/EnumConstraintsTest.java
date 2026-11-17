@@ -1,15 +1,15 @@
 package db;
 
-import model.attribute.Chipset;
-import model.attribute.ComponentType;
-import model.attribute.CoolerType;
-import model.attribute.EfficencyRating;
-import model.attribute.FormFactor;
-import model.attribute.MemoryGen;
-import model.attribute.PsuFormFactor;
-import model.attribute.Socket;
-import model.attribute.StorageTech;
-import model.attribute.StorageType;
+import main.domain.model.attribute.Chipset;
+import main.domain.model.attribute.ComponentType;
+import main.domain.model.attribute.CoolerType;
+import main.domain.model.attribute.EfficencyRating;
+import main.domain.model.attribute.FormFactor;
+import main.domain.model.attribute.MemoryGen;
+import main.domain.model.attribute.PsuFormFactor;
+import main.domain.model.attribute.Socket;
+import main.domain.model.attribute.StorageTech;
+import main.domain.model.attribute.StorageType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,12 +1,13 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
 import db.PersistenceException;
-import model.attribute.FormFactor;
-import model.attribute.MemoryGen;
-import model.attribute.Socket;
-import model.component.Motherboard;
+import main.dao.jdbc.MotherboardDao;
+import main.domain.model.attribute.FormFactor;
+import main.domain.model.attribute.MemoryGen;
+import main.domain.model.attribute.Socket;
+import main.domain.model.component.Motherboard;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class JdbcMotherboardDaoTest extends ComponentDaoContractTest<Motherboard> {
 
-    @Override ComponentDao<Motherboard> createDao(DatabaseConnection db) { return new JdbcMotherboardDao(db); }
+    @Override ComponentDao<Motherboard> createDao(DatabaseConnection db) { return new MotherboardDao(db); }
 
     @Override Motherboard sample(String model) {
         return new Motherboard(0, "MSI", model, 219.0, Socket.AM5, "B850", FormFactor.ATX,

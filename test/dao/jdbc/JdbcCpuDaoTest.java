@@ -3,9 +3,10 @@ package dao.jdbc;
 import db.DatabaseConnection;
 import db.DatabaseInitializer;
 import db.PersistenceException;
-import model.attribute.MemoryGen;
-import model.attribute.Socket;
-import model.component.Cpu;
+import main.dao.jdbc.CpuDao;
+import main.domain.model.attribute.MemoryGen;
+import main.domain.model.attribute.Socket;
+import main.domain.model.component.Cpu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -27,13 +28,13 @@ class JdbcCpuDaoTest {
     Path tempDir;
 
     DatabaseConnection db;
-    JdbcCpuDao dao;
+    CpuDao dao;
 
     @BeforeEach
     void setUp() {
         db = DatabaseConnection.forFile(tempDir.resolve("cpu-test.db"));
         DatabaseInitializer.ensureCreated(db);
-        dao = new JdbcCpuDao(db);
+        dao = new CpuDao(db);
     }
 
     /** id = 0: record non ancora salvato. */

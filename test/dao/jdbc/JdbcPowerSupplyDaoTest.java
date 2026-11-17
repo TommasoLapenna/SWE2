@@ -1,14 +1,15 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
-import model.attribute.EfficencyRating;
-import model.attribute.PsuFormFactor;
-import model.component.PowerSupply;
+import main.dao.jdbc.PowerSupplyDao;
+import main.domain.model.attribute.EfficencyRating;
+import main.domain.model.attribute.PsuFormFactor;
+import main.domain.model.component.PowerSupply;
 
 class JdbcPowerSupplyDaoTest extends ComponentDaoContractTest<PowerSupply> {
 
-    @Override ComponentDao<PowerSupply> createDao(DatabaseConnection db) { return new JdbcPowerSupplyDao(db); }
+    @Override ComponentDao<PowerSupply> createDao(DatabaseConnection db) { return new PowerSupplyDao(db); }
 
     @Override PowerSupply sample(String model) {
         return new PowerSupply(0, "Corsair", model, 99.0, 750, EfficencyRating.GOLD, PsuFormFactor.ATX, 4);

@@ -1,22 +1,23 @@
 package application;
 
-import build.PcBuilder;
-import dao.BuildSummary;
-import dao.SavedBuild;
-import dao.jdbc.JdbcBuildDao;
-import dao.jdbc.JdbcCpuDao;
-import dao.jdbc.JdbcGpuDao;
-import dao.jdbc.JdbcStorageDao;
+import main.application.BuildStore;
+import main.domain.model.PcBuilder;
+import main.dao.BuildSummary;
+import main.dao.SavedBuild;
+import main.dao.jdbc.BuildDao;
+import main.dao.jdbc.CpuDao;
+import main.dao.jdbc.GpuDao;
+import main.dao.jdbc.StorageDao;
 import db.DatabaseConnection;
 import db.DatabaseInitializer;
-import model.attribute.MemoryGen;
-import model.attribute.Socket;
-import model.attribute.StorageTech;
-import model.attribute.StorageType;
-import model.component.Component;
-import model.component.Cpu;
-import model.component.Gpu;
-import model.component.Storage;
+import main.domain.model.attribute.MemoryGen;
+import main.domain.model.attribute.Socket;
+import main.domain.model.attribute.StorageTech;
+import main.domain.model.attribute.StorageType;
+import main.domain.model.component.Component;
+import main.domain.model.component.Cpu;
+import main.domain.model.component.Gpu;
+import main.domain.model.component.Storage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -46,14 +47,14 @@ class BuildStoreTest {
     void setUp() {
         DatabaseConnection db = DatabaseConnection.forFile(tempDir.resolve("store-test.db"));
         DatabaseInitializer.ensureCreated(db);
-        store = new BuildStore(new JdbcBuildDao(db));
+        store = new BuildStore(new BuildDao(db));
 
         // il catalogo: componenti salvati con il loro DAO, quindi con un id vero
-        cpu = new JdbcCpuDao(db).insert(new Cpu(0, "AMD", "Ryzen", 389.0, 120, Socket.AM5, 8, 16, 4.2,
+        cpu = new CpuDao(db).insert(new Cpu(0, "AMD", "Ryzen", 389.0, 120, Socket.AM5, 8, 16, 4.2,
                 Set.of(MemoryGen.DDR5), true, false));
-        gpu = new JdbcGpuDao(db).insert(new Gpu(0, "NVIDIA", "RTX", 599.0, 200, 12, 244, 2.0, 650, 1));
-        ssd = new JdbcStorageDao(db).insert(new Storage(0, "Samsung", "980", 99.0, StorageType.SSD, StorageTech.M2_NVME, 1000));
-        hdd = new JdbcStorageDao(db).insert(new Storage(0, "Seagate", "Barracuda", 55.0, StorageType.HDD, StorageTech.SATA, 2000));
+        gpu = new GpuDao(db).insert(new Gpu(0, "NVIDIA", "RTX", 599.0, 200, 12, 244, 2.0, 650, 1));
+        ssd = new StorageDao(db).insert(new Storage(0, "Samsung", "980", 99.0, StorageType.SSD, StorageTech.M2_NVME, 1000));
+        hdd = new StorageDao(db).insert(new Storage(0, "Seagate", "Barracuda", 55.0, StorageType.HDD, StorageTech.SATA, 2000));
     }
 
     private static PcBuilder builderWith(String name, Component... components) {

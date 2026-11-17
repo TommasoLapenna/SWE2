@@ -1,10 +1,10 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
 import db.DatabaseInitializer;
 import db.PersistenceException;
-import model.component.Component;
+import main.domain.model.component.Component;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

@@ -1,12 +1,13 @@
 package dao.jdbc;
 
-import dao.ComponentDao;
+import main.dao.ComponentDao;
 import db.DatabaseConnection;
-import model.component.Peripherals;
+import main.dao.jdbc.PeripheralsDao;
+import main.domain.model.component.Peripherals;
 
 class JdbcPeripheralsDaoTest extends ComponentDaoContractTest<Peripherals> {
 
-    @Override ComponentDao<Peripherals> createDao(DatabaseConnection db) { return new JdbcPeripheralsDao(db); }
+    @Override ComponentDao<Peripherals> createDao(DatabaseConnection db) { return new PeripheralsDao(db); }
 
     @Override Peripherals sample(String model) { return new Peripherals(0, "Logitech", model, 49.0, 2); }
 

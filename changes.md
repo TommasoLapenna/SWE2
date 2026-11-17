@@ -73,7 +73,7 @@ They were public mutable globals: any class could reassign e.g. `Specs.socketMat
 after `DefaultRules` had captured it. Nothing reassigned them, so behaviour is unchanged.
 
 ### 5. `MemoryTest`: mixed JUnit 4 and JUnit 5
-`src/test/model/component/MemoryTest.java`
+`test/component`
 - `import org.junit.Assert;` → `import org.junit.jupiter.api.Assertions;`
 - `Assert.assertEquals(16, ...)` → `Assertions.assertEquals(16, ...)`
 

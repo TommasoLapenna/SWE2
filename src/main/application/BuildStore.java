@@ -1,10 +1,10 @@
-package application;
+package main.application;
 
-import build.BuildView;
-import dao.BuildDao;
-import dao.BuildSummary;
-import dao.SavedBuild;
-import model.component.Component;
+import main.domain.model.BuildView;
+import main.dao.BuildDao;
+import main.dao.BuildSummary;
+import main.dao.SavedBuild;
+import main.domain.model.component.Component;
 
 import java.util.List;
 import java.util.Objects;

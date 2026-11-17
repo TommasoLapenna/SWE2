@@ -4,18 +4,59 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c46c9d56-8cc9-4d21-9008-469dc6de38d1" name="Changes" comment="db added">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+    <list default="true" id="c46c9d56-8cc9-4d21-9008-469dc6de38d1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/changes.md" beforeDir="false" afterPath="$PROJECT_DIR$/changes.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/BuildDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/BuildDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/BuildSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/BuildSummary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/CaseDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/ComponentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/ComponentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/CoolerDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/CpuDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/GpuDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/MemoryDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/MotherboardDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/PeripheralsDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/PowerSupplyDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/SavedBuild.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/SavedBuild.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/StorageDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/ChildRows.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/ChildRows.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcBuildDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/BuildDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcCaseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/CaseDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcComponentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/ComponentDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcCoolerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/CoolerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcCpuDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/CpuDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcGpuDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/GpuDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcMemoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/MemoryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcMotherboardDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/MotherboardDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcPeripheralsDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/PeripheralsDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcPowerSupplyDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/PowerSupplyDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dao/jdbc/JdbcStorageDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dao/jdbc/StorageDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/application/BuildStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/application/BuildStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model/attribute/StorageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/application/PcBuildSessionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/application/PcBuildSessionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/build/PcBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/build/PcBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/model/component/MemoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/component/MemoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/application/BuildStoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/application/BuildStoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/ComponentDaoContractTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/ComponentDaoContractTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcBuildDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/BuildDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcCaseDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/CaseDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcCoolerDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcCoolerDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcCpuDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcCpuDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcGpuDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcGpuDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcMemoryDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcMemoryDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcMotherboardDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcMotherboardDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcPeripheralsDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcPeripheralsDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcPowerSupplyDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcPowerSupplyDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/dao/jdbc/JdbcStorageDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/dao/jdbc/JdbcStorageDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/db/EnumConstraintsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/db/EnumConstraintsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/db/LookupTablesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/db/LookupTablesTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseLocalColorSettings">
-    <colors>
-      <entry key="d67173d8-16f3-49b1-86cb-fcc57f040623" value="" />
-    </colors>
   </component>
   <component name="EmbeddingIndexingInfo">
     <option name="cachedIndexableFilesCount" value="60" />
@@ -47,61 +88,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.4595909979310073" />
-      <entry key="MS500" value="3.046763499499742" />
-      <entry key="S2" value="5.541498586174102" />
-      <entry key="S5" value="6.820764157263352" />
-      <entry key="S10" value="7.4530235121535675" />
-      <entry key="S30" value="8.699304643276491" />
-      <entry key="S60" value="9.711782930177792" />
-      <entry key="M2" value="10.899555337632687" />
-      <entry key="M5" value="12.890749013531082" />
-      <entry key="M10" value="15.045181645805052" />
-      <entry key="M15" value="16.36751318467707" />
-      <entry key="M30" value="18.25675864183822" />
-      <entry key="H1" value="19.498602662483712" />
-      <entry key="H2" value="20.21342327275724" />
-      <entry key="H4" value="20.597272444297047" />
-      <entry key="D1" value="20.931525838598496" />
-      <entry key="W1" value="20.990184283941392" />
+      <entry key="MS100" value="2.3407865661865666E-14" />
+      <entry key="MS500" value="0.0019477215523161162" />
+      <entry key="S2" value="0.37751387953820825" />
+      <entry key="S5" value="1.6067267093685145" />
+      <entry key="S10" value="3.0662998339249152" />
+      <entry key="S30" value="6.336033076006677" />
+      <entry key="S60" value="10.644546373678882" />
+      <entry key="M2" value="21.430562357787487" />
+      <entry key="M5" value="45.5813791938108" />
+      <entry key="M10" value="63.16717132612958" />
+      <entry key="M15" value="71.34866139712821" />
+      <entry key="M30" value="81.3682053968507" />
+      <entry key="H1" value="87.29297535977463" />
+      <entry key="H2" value="90.53874075724701" />
+      <entry key="H4" value="92.24104375954244" />
+      <entry key="D1" value="93.70278094103531" />
+      <entry key="W1" value="93.95743902489485" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="0.0" />
-      <entry key="M2" value="0.0" />
-      <entry key="M5" value="0.0" />
-      <entry key="M10" value="0.0" />
-      <entry key="M15" value="0.0" />
-      <entry key="M30" value="0.0" />
-      <entry key="H1" value="0.0" />
-      <entry key="H2" value="0.0" />
-      <entry key="H4" value="0.0" />
-      <entry key="D1" value="0.0" />
-      <entry key="W1" value="0.0" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000491864" />
+      <entry key="S2" value="1.004631559788507" />
+      <entry key="S5" value="1.2262453884571922" />
+      <entry key="S10" value="1.903550023613331" />
+      <entry key="S30" value="3.4030239273838183" />
+      <entry key="S60" value="4.145189931103655" />
+      <entry key="M2" value="4.745424091953145" />
+      <entry key="M5" value="5.35387938388471" />
+      <entry key="M10" value="5.643188184009315" />
+      <entry key="M15" value="5.753662322600824" />
+      <entry key="M30" value="5.872328577783897" />
+      <entry key="H1" value="5.93498466988477" />
+      <entry key="H2" value="5.9671903921527605" />
+      <entry key="H4" value="5.983518811737097" />
+      <entry key="D1" value="5.997242449185098" />
+      <entry key="W1" value="5.999605801456431" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.4162080575543" />
-      <entry key="MS500" value="3.025153808080581" />
-      <entry key="S2" value="5.529569539903042" />
-      <entry key="S5" value="6.8146451970673265" />
-      <entry key="S10" value="7.44962940441559" />
-      <entry key="S30" value="8.69794147343516" />
-      <entry key="S60" value="9.711006135499186" />
-      <entry key="M2" value="10.899106012310341" />
-      <entry key="M5" value="12.89041557701644" />
-      <entry key="M10" value="15.044836100531947" />
-      <entry key="M15" value="16.36719581289991" />
-      <entry key="M30" value="18.256533381308664" />
-      <entry key="H1" value="19.498467236536516" />
-      <entry key="H2" value="20.213348878770557" />
-      <entry key="H4" value="20.59723343808584" />
-      <entry key="D1" value="20.931519073652453" />
-      <entry key="W1" value="20.99018331088678" />
+      <entry key="MS100" value="2.3407992738445357E-14" />
+      <entry key="MS500" value="0.0020893776158014982" />
+      <entry key="S2" value="0.47629732711962575" />
+      <entry key="S5" value="2.1304193118315378" />
+      <entry key="S10" value="4.388887593137916" />
+      <entry key="S30" value="9.313066042143385" />
+      <entry key="S60" value="14.459890658261422" />
+      <entry key="M2" value="25.954535084995058" />
+      <entry key="M5" value="50.82600275172494" />
+      <entry key="M10" value="68.75125550800998" />
+      <entry key="M15" value="77.06178710218002" />
+      <entry key="M30" value="87.21964251952453" />
+      <entry key="H1" value="93.21734404764722" />
+      <entry key="H2" value="96.50057828767812" />
+      <entry key="H4" value="98.22187459413195" />
+      <entry key="D1" value="99.69957376034299" />
+      <entry key="W1" value="99.95698055309585" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -115,55 +156,90 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Database Script.schema.sql.executor&quot;: &quot;Run&quot;,
-    &quot;Database Script.seed_lookups.sql.executor&quot;: &quot;Run&quot;,
-    &quot;Database Script.test_data.sql.executor&quot;: &quot;Run&quot;,
-    &quot;Database Script.test_violations.sql.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;testing__branch&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/samuele/SWE2/src&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.jshint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.jshint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/samuele/SWE2/untitled/src/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;SQL Dialects&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.main.Main.executor": "Run",
+    "Database Script.schema.sql.executor": "Run",
+    "Database Script.seed_lookups.sql.executor": "Run",
+    "Database Script.test_data.sql.executor": "Run",
+    "Database Script.test_violations.sql.executor": "Run",
+    "JUnit.BuildStoreTest.executor": "Run",
+    "JUnit.DatabaseInitializerTest.executor": "Run",
+    "JUnit.EnumConstraintsTest.executor": "Run",
+    "JUnit.JdbcBuildDaoTest.executor": "Run",
+    "JUnit.JdbcCaseDaoTest.executor": "Run",
+    "JUnit.JdbcCoolerDaoTest.executor": "Run",
+    "JUnit.JdbcCpuDaoTest.executor": "Run",
+    "JUnit.JdbcGpuDaoTest.executor": "Run",
+    "JUnit.JdbcMemoryDaoTest.executor": "Run",
+    "JUnit.JdbcMotherboardDaoTest.executor": "Run",
+    "JUnit.JdbcPeripheralsDaoTest.executor": "Run",
+    "JUnit.JdbcPowerSupplyDaoTest.executor": "Run",
+    "JUnit.JdbcStorageDaoTest.executor": "Run",
+    "JUnit.LookupTablesTest.executor": "Run",
+    "JUnit.MemoryTest.executor": "Run",
+    "JUnit.PcBuilderTest.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "junie.plugin.stays.banner.dismissed": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/tommaso/Documents/University/SWE",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.jshint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.jshint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/samuele/SWE2/untitled/src/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "SQL Dialects",
+    "to.speed.mode.migration.done": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ],
-    &quot;RunConfigurationTargetLRU&quot;: [
-      &quot;d67173d8-16f3-49b1-86cb-fcc57f040623&quot;
+    "RunConfigurationTargetLRU": [
+      "d67173d8-16f3-49b1-86cb-fcc57f040623"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/db" />
     </key>
   </component>
-  <component name="RunManager" selected="Database Script.test_violations.sql">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.main.Main">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="/nix/store/sxhq6bckb6mh3wa6gfsgczry8w75kfav-jetbrains-jdk-25.0.3-b508.4/lib/openjdk" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="UNNAMED_CLASS_CONFIGURATION" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="untitled" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="main.Main" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.Main" />
+      <module name="pc-configurator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -203,21 +279,28 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Application.main.Main" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Database Script.schema.sql" />
+      <item itemvalue="Database Script.seed_lookups.sql" />
+      <item itemvalue="Database Script.test_data.sql" />
+      <item itemvalue="Database Script.test_violations.sql" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Database Script.test_violations.sql" />
         <item itemvalue="Database Script.test_data.sql" />
         <item itemvalue="Database Script.seed_lookups.sql" />
         <item itemvalue="Database Script.schema.sql" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
-        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+        <option value="bundled-jdk-30f59d01ecdd-2df11533d9fe-intellij.indexing.shared.core-IU-262.11879.100" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.11879.100" />
       </set>
     </attachedChunks>
   </component>
