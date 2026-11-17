@@ -2,7 +2,7 @@ package test.model.component;
 
 import main.domain.model.attribute.MemoryGen;
 import main.domain.model.component.Memory;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -16,6 +16,6 @@ public class MemoryTest {
 
     @Test
     void totalRamCapcity() {
-        Assert.assertEquals(16, test.totalCapacityGb());
+        Assertions.assertEquals(16, test.totalCapacityGb());
     }
 }

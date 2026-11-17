@@ -318,9 +318,9 @@ Attori & Utente \\
 \hline
 Pre-condizioni & Una sessione di build è attiva. Il catalogo contiene almeno un componente. \\
 \hline
-Flusso base & 1. L'utente esplora il catalogo e seleziona un componente.\newline 2. L'utente clicca «Aggiungi alla build».\newline 3. Il sistema aggiunge il componente tramite \texttt{PcBuildSession.add()}.\newline 4. Il sistema salva uno snapshot nella \texttt{SnapshotHistory} «include UC-Snapshot».\newline 5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline 6. Il sistema aggiorna la vista della build e mostra eventuali violazioni. \\
+Flusso base & 1. L'utente esplora il catalogo e seleziona un componente.\newline 2. L'utente clicca «Aggiungi alla build».\newline 3. Tramite \texttt{PcBuildSession.add()} il sistema salva uno snapshot dello stato attuale nella \texttt{SnapshotHistory} «include UC-Snapshot».\newline 4. Il sistema aggiunge il componente alla build.\newline 5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline 6. Il sistema aggiorna la vista della build e mostra eventuali violazioni. \\
 \hline
-Flussi alternativi & 3a. La cardinalità massima per quel tipo è già raggiunta: il sistema mostra un errore e non aggiunge il componente.\newline 5a. La verifica rileva violazioni: il sistema le elenca senza bloccare l'aggiunta. \\
+Flussi alternativi & 4a. La cardinalità massima per quel tipo è già raggiunta (es. una seconda CPU): il componente viene comunque aggiunto, ma la verifica segnala una violazione di gravità \texttt{ERROR} (es. \texttt{TOO-MANY-CPUS}) che impedisce il checkout finché persiste.\newline 5a. La verifica rileva violazioni: il sistema le elenca senza bloccare l'aggiunta. \\
 \hline
 Post-condizioni & Il componente è nella build. Uno snapshot è salvato. Le violazioni sono aggiornate. \\
 \hline
@@ -342,9 +342,9 @@ Attori & Utente \\
 \hline
 Pre-condizioni & Una sessione di build è attiva. La build contiene almeno un componente. \\
 \hline
-Flusso base & 1. L'utente seleziona un componente nella build corrente.\newline 2. L'utente clicca «Rimuovi».\newline 3. Il sistema rimuove il componente tramite \texttt{PcBuildSession.remove()}.\newline 4. Il sistema salva uno snapshot «include UC-Snapshot».\newline 5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline 6. Il sistema aggiorna la vista della build. \\
+Flusso base & 1. L'utente seleziona un componente nella build corrente.\newline 2. L'utente clicca «Rimuovi».\newline 3. Tramite \texttt{PcBuildSession.remove()} il sistema salva uno snapshot dello stato attuale «include UC-Snapshot».\newline 4. Il sistema rimuove il componente dalla build.\newline 5. Il sistema esegue la verifica di compatibilità «include UC-Verifica».\newline 6. Il sistema aggiorna la vista della build. \\
 \hline
-Flussi alternativi & 3a. Il componente non è presente nella build: il sistema mostra un errore. \\
+Flussi alternativi & 3a. Il componente non è presente nella build: \texttt{remove()} restituisce \texttt{false}, nessuno snapshot viene salvato e la build resta invariata. \\
 \hline
 Post-condizioni & Il componente non è più nella build. Snapshot salvato. Violazioni aggiornate. \\
 \hline
@@ -629,7 +629,7 @@ deve farla il baldè
     \caption{Domain Package Diagram}
     \label{fig:placeholder}
 \end{figure}
-Il dominio contiene sia il modello che le sue business rule, nei corrispettivi pacchetti .\textit{model} e \textit{rule}
+Il dominio contiene sia il modello che le sue business rule, nei corrispettivi pacchetti \textit{model} e \textit{rule}; il pacchetto \textit{event} contiene gli eventi di notifica (\texttt{BuildEvent}) scambiati tra i due.
 
 \subsubsection{Model}
 
@@ -681,6 +681,7 @@ public sealed interface Component
         \item \texttt{Memory}
         \item \texttt{Storage}
         \item \texttt{Case}
+        \item \texttt{Cooler}
         \item \texttt{PowerSupply}
         \item \texttt{Peripherals}
     \end{itemize}
@@ -731,9 +732,9 @@ Le liste possono contenere più elementi per tipologia, questo però è un compo
     \label{fig:placeholder}
 \end{figure}
 
-\texttt{PcBuilder} contiene al suo interno due classi astratte:
+\texttt{PcBuilder} contiene al suo interno due classi interne private:
 \begin{itemize}
-    \item \texttt{ReadonlyView}: implementa l'interfaccia pubblica BuildView. Se questa interfaccia fosse implementata da PcBuilder direttamente, sarebbe possibile effettuare il cast \texttt{ (PcBuilder) session.getBuild()...} e violare i limiti di sola lettura imposta dall'interfaccia. Implementare invece quetsa interfaccia in una classe privata che funge da \textit{Proxy}, rende impossibile questo "escamotage".
+    \item \texttt{ReadOnlyView}: implementa l'interfaccia pubblica BuildView. Se questa interfaccia fosse implementata da PcBuilder direttamente, sarebbe possibile effettuare il cast \texttt{ (PcBuilder) session.getBuild()...} e violare i limiti di sola lettura imposta dall'interfaccia. Implementare invece quetsa interfaccia in una classe privata che funge da \textit{Proxy}, rende impossibile questo "escamotage".
     \item \texttt{BuildSnapshot}: permette l'implementazione corretta di memento. Questa classe privata è la migliore alternativa alla funzionalità \textit{friend} del C++ (mancante in java) utilizzata in \textit{GoF} per implementare memento: quindi BuildSnapshot implementa l'interfaccia pubblica \texttt{Memento} e il tipo che ritorna \textit{createMemento} è il medesimo, così all'esterno non è possibile effettuare un cast alla classe privata i questione preservando la segretezza dello stato del memento al di fuori di \textit{Originator}.
 \end{itemize}
 
@@ -874,7 +875,7 @@ Specification permette quindi ti poter definire degli oggetti per validare la bu
     \item Nella sua definizione "standard", \texttt{isSatisfiedBy()} restituisce solo un booleano, quando nel caso dell'applicazione servono informazioni aggiuntive. Quindi le specifiche sono utilizzate per creare le \texttt{BuildRule}, che contengono quest'ultime, un nome, la gravità delle violazioni, i componenti coinvolti e degli eventuali messaggi da dare all'utente.\\
     Se queste regole sono violate, allora viene create una \texttt{Violation}, che contiene le informazioni sulla regola violata e la sua presenza (in caso di gravità \texttt{Severity.ERROR}) previene il checkout.
 
-    \item Siccome le \textbf{BuildRule} hanno bisogno dei componenti che sono coinvolti nella loro specifica, ma l'atto di dover scrivere manualmente la lista \texttt{InvolvedComponents} esplicitamente riguardante più componenti è prono a errori. Entra quindi in gioco \texttt{BuildSpecification}, che aggiunge il metodo \texttt{dependsOn()} che grazie al meccanismo di \texttt{combine} è in grado di raccogliere tutte le dipendenze di componenti nell'albero composito della specifica.
+    \item Siccome le \textbf{BuildRule} hanno bisogno dei componenti che sono coinvolti nella loro specifica, ma l'atto di dover scrivere manualmente la lista \texttt{involvedComponents()} esplicitamente riguardante più componenti è prono a errori. Entra quindi in gioco \texttt{BuildSpecification}, che aggiunge il metodo \texttt{dependsOn()} che grazie al meccanismo di \texttt{combine} è in grado di raccogliere tutte le dipendenze di componenti nell'albero composito della specifica.
     
 \end{enumerate}
 
@@ -1044,11 +1045,11 @@ public class PredicateSpecification extends BuildSpecification {
     \end{lstlisting}
 \end{enumerate}
 
-Come si può notare queste due classi di specifiche sono le \textbf{uniche non astratte}, quindi si possono creare istanze di specifiche \textbf{solo} secondo queste due tipologie e caratteristiche.
+Come si può notare queste due classi di specifiche sono le \textbf{uniche sottoclassi concrete di} \texttt{BuildSpecification}, quindi si possono creare istanze di specifiche sulla build \textbf{solo} secondo queste due tipologie e caratteristiche (le classi concrete del pacchetto \texttt{pattern.specification}, come \texttt{AndSpecification}, vengono usate solo internamente dagli operatori logici).
 
 L'unico passaggio rimasto è quello di scrivere tutti gli oggetti necessari, che vengono definiti dentro \texttt{Specs}:
 \begin{enumerate}
-    \item \texttt{ComponentCountSpecification} viene utilizzato per creare i metodi<z\textit{factory} \texttt{atMost}, \texttt{atLeast}, e \texttt{excacltyOne} (oltre a \texttt{multipleExcactlyOne} che verrà spiegato nella sezione successiva). Questi metodi prendeno come parametro il tipo di componente ed un valore numerico
+    \item \texttt{ComponentCountSpecification} viene utilizzato per creare i metodi \textit{factory} \texttt{atMost}, \texttt{atLeast} e \texttt{exactly} (oltre a \texttt{mutipleExcatclyOne} che verrà spiegato nella sezione successiva). Questi metodi prendeno come parametro il tipo di componente ed un valore numerico
     \begin{lstlisting}[style=intellijlight, caption={A simple Java class}, label={lst:hello}]
     //Specs.java
     public static BuildSpecification atMost(ComponentType t, int n)  { return new ComponentCountSpecification(t, 0, n); }
@@ -1067,12 +1068,12 @@ L'unico passaggio rimasto è quello di scrivere tutti gli oggetti necessari, che
     \item Le specification con predicati vengono create come oggetti di classe \texttt{PredicateSpecification}, dove il predicato di \texttt{isSatisfiedBy()} viene dichiarato direttamente nel costruttore, utilizzando le funzioni lambda (che verranno poi eseguite quandi si andrà a fare \texttt{Predicate.test()}.
     \begin{lstlisting}[style=intellijlight, caption={A simple Java class}, label={lst:hello}]
     //Specs.java
-    public static BuildSpecification socketMatchSpecification = new PredicateSpecification(
+    public static final BuildSpecification socketMatchSpecification = new PredicateSpecification(
             b -> b.getSingleComponent(ComponentType.CPU, Cpu.class).socket().equals(b.getSingleComponent(ComponentType.MOTHERBOARD, Motherboard.class).socket()),
             Set.of(ComponentType.CPU, ComponentType.MOTHERBOARD)
     );
 
-    public static BuildSpecification gpuLengthFitsCaseSpecification = new PredicateSpecification(
+    public static final BuildSpecification gpuLengthFitsCaseSpecification = new PredicateSpecification(
             b -> b.getComponents(ComponentType.GPU, Gpu.class).stream().allMatch(g -> g.lenghtMm() <= b.getSingleComponent(ComponentType.CASE, Case.class).maxGpuLengthMm()),
             Set.of(ComponentType.GPU, ComponentType.CASE)
     );
@@ -1108,11 +1109,11 @@ Stessa cosa accade anche nel secondo esempio, sempre per la mancanza di una cpu 
     \hline
     \ttfamily
     new BuildRule(\newline
-    \hspace*{2em}13,\newline
+    \hspace*{2em}12,\newline
     \hspace*{2em}"MISSING-COOLER",\newline
     \hspace*{2em}Specs.cpuHasBundledCoolerSpecification
-    \hspace*{2em}.or(Specs.atLeast(ComponentType.COOLING, 1),\newline
-    \hspace*{2em}Severity.ERROR,\newline
+    \hspace*{2em}.or(Specs.atLeast(ComponentType.COOLING, 1)),\newline
+    \hspace*{2em}Severity.WARNING,\newline
     \hspace*{2em}"CPU \{CPU\} ships without a cooler and none was selected"\newline
     ), & 
     \ttfamily\color{red!80!black}
@@ -1167,9 +1168,9 @@ new BuildRule(
 new BuildRule(
     12,
     "MISSING-COOLER",
-    Specs.excatcly(ComponentType.CPU, 1).implies(Specs.cpuHasBundledCoolerSpecification.or(Specs.atLeast(ComponentType.COOLING, 1))),
+    Specs.mutipleExcatclyOne(ComponentType.CPU).implies(Specs.cpuHasBundledCoolerSpecification.or(Specs.atLeast(ComponentType.COOLING, 1))),
     Severity.WARNING,
-    CPU {CPU} ships without a cooler and none was selected"
+    "CPU {CPU} ships without a cooler and none was selected"
 ),
 \end{lstlisting}
 
@@ -1183,7 +1184,7 @@ L'implementazione di \texttt{Observer} è quella standard di GoF, con la sola di
 \end{figure}
 Questa scelta di implementazione è simile a quella di \textit{EventListener} in java, dove invece di avere solamente un \textit{push} o un \textit{pull}, vengono effettuati entrambi: viene effettuato un push dell'oggetto \texttt{Event} in base al quale poi gli oggetti \texttt{Observer} possono attingere ai dati di \texttt{Subject}.
 
-Quando \texttt{notify()} viene chiamato dentro \texttt{PcBuilder} (nei metodi \texttt{addComponent()}, \texttt{removeComponent()} e \texttt{RestoreMemento()}), viene effettuato un push di un \texttt{BuildEvent}, per esempio \texttt{notify(new BuildEvent(BuildEventType.ADDED, c));}
+Quando \texttt{notify()} viene chiamato dentro \texttt{PcBuilder} (nei metodi \texttt{addComponent()}, \texttt{removeComponent()} e \texttt{restoreMemento()}), viene effettuato un push di un \texttt{BuildEvent}, per esempio \texttt{notify(new BuildEvent(BuildEventType.ADDED, c));}
 
 Dopodichè l'evento viene passato a \texttt{CompatibilityChecker} (ovvero l'Observer) che col metodo \texttt{update()} provvede ad elaborare l'evento
 
@@ -1200,10 +1201,11 @@ Dopodichè l'evento viene passato a \texttt{CompatibilityChecker} (ovvero l'Obse
     }
 \end{lstlisting}
 
-Siccome la lista delle BuildRule è molto grande, per evitare di dover ogni volta rielaborare ognuna di esse, si controlla se l'evento è di tipo \texttt{BuildEventType.ADDED o .REMOVED}. Se è questo il caso, si procede alla rivalutazione solo delle regole legate al componente che è stato aggiunto o rimosso, sfruttando la \texttt{InvertedIndexMap} di \texttt{BuildRegistry}:
+Siccome la lista delle BuildRule è molto grande, per evitare di dover ogni volta rielaborare ognuna di esse, si controlla se l'evento è di tipo \texttt{BuildEventType.ADDED o .REMOVED}. Se è questo il caso, si procede alla rivalutazione solo delle regole legate al componente che è stato aggiunto o rimosso, sfruttando la \texttt{InvertedIndexMap} di \texttt{RulesRegistry}:
 
 \begin{verbatim}
 PcBuildSession.add(c)
+  -> history.save();                                       // 0. snapshot (Memento)
   -> PcBuilder.addComponent(c)
        components.get(c.type()).add(c);                    // 1. mutate state
        notify(new BuildEvent(ADDED, c));                   // 2. then notify
@@ -1216,7 +1218,7 @@ Nel caso invece che l'evento sia quello di \texttt{RESTORED}, vengono rivalutate
 Insieme a Specification, Observer è un altro componente fondamentale dell'applicazione, questo duo è responsabile della maggior parte della logica.
 
 \subsection{Memento}
-Il design pattern Memento serve a salvare gli stati interni della build, che in questo caso sono utilizzati per implementare le azioni di \textit{undo/redo}(Ctrl+Z/Ctrl+Y). L'implementazione cerca di seguire il più possibile quella standard di GoF, ma siccome manca l'operatore \textit{friend} del C++ si ricorre ad un altro meccanismo per garantire che lo stato registrato da uno snapshot sia accessibile solo dall'Originator: \texttt{BuildSnapshot} implementa l'interfaccia \texttt{Memento} (anche se vuota) e aggiunge il metodo \texttt{getState()}. Così facendo \texttt{SnapshotHistory} opera su l'interfaccia \texttt{Memento} e non  conosce l'esistenza della classe privata interna \texttt{PcBuilder.BuildSnaphot}, ma quando l'oggetto \texttt{Memento} viene passato come argomento a \texttt{PcBuilder.restoreMemento(Memento)}, quest'utlimo può accedera allo stato nascosto tramite un cast a \texttt {BuildSnapshot}.
+Il design pattern Memento serve a salvare gli stati interni della build, che in questo caso sono utilizzati per implementare le azioni di \textit{undo/redo}(Ctrl+Z/Ctrl+Y). L'implementazione cerca di seguire il più possibile quella standard di GoF, ma siccome manca l'operatore \textit{friend} del C++ si ricorre ad un altro meccanismo per garantire che lo stato registrato da uno snapshot sia accessibile solo dall'Originator: \texttt{BuildSnapshot} implementa l'interfaccia \texttt{Memento} (anche se vuota) e aggiunge il metodo \texttt{getState()}. Così facendo \texttt{SnapshotHistory} opera su l'interfaccia \texttt{Memento} e non  conosce l'esistenza della classe privata interna \texttt{PcBuilder.BuildSnapshot}, ma quando l'oggetto \texttt{Memento} viene passato come argomento a \texttt{PcBuilder.restoreMemento(Memento)}, quest'utlimo può accedera allo stato nascosto tramite un cast a \texttt {BuildSnapshot}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{diagrammi/memento.png}
@@ -1257,7 +1259,7 @@ La struttura dati principale, che rappresenta la build del pc, è una \texttt{En
 \end{figure}
 
 Per quanto riguarda invece le strutture dati di supporto alle regole, si hanno due strutture dati.
-La prima \texttt{LinkedHasehdMap<>}, indicizzata tramite il nome (univoco) della regole e contiene la regola stessa. Questa è la struttura "base" delle regole, e la mappa serve per potere accederci direttamente tramite il loro nome per le varie operazioni che si possono effettuare su di esse (aggiunta e rimozione).
+La prima \texttt{LinkedHashMap<>}, indicizzata tramite il nome (univoco) della regole e contiene la regola stessa. Questa è la struttura "base" delle regole, e la mappa serve per potere accederci direttamente tramite il loro nome per le varie operazioni che si possono effettuare su di esse (aggiunta e rimozione).
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{diagrammi/rules.png}
@@ -1320,9 +1322,23 @@ public abstract class InvertedIndexMap<K extends Enum<K>, V> {
 Quindi la mappa si basa sempre su una \texttt{EnumMap<>} come \texttt{components}, ma i valori sono tutte le regole che tra i componenti coinvolti contengono anche quello dell'indice. Per questa definizione ci saranno quindi dei duplicati nei valori, ovvero le regole che dipendono da due o più componenti.
 
 Quando si va ad aggiungere/rimuovere/rimpiazzare un componente, vengono prese in considerazioni \textbf{solo} le regole che comprendono quella tipologia di componente (...), in modo da non dover rivalutare tutta la lista di regole.
-provsporvvsvsvvs jjjj
-jjjjbj
 
+\begin{verbatim}
+    registry.lookup(Set.of(event.componentType()))
+         -> keys.forEach(k -> result.addAll(index.getOrDefault(k, List.of())));
+            return result
+            
+    // event = BuildEvent(ADDED, cpu)
+    registry.lookup(Set.of(ComponentType.CPU))
+        -> result.addAll(index.get(ComponentType.CPU))
+            return { MISSING-CPU, TOO-MANY-CPUS, MISSING-COOLER,
+                     MISSING-DISPLAY-OUTPUT, SOCKET-MISMATCH,
+                     CPU-MEMORY-GEN-MISMATCH, RAM-CPU-GEN-MISMATCH,
+                     COOLER-SOCKET-MISMATCH, COOLER-TDP-INSUFFICIENT,
+                     PSU-SUFFICIENT-WATTS, PSU-LOW-HEADROOM,
+                     PSU-EFFICIENCY-LOW-FOR-LOAD }
+\end{verbatim}
+Le ultime tre regole compaiono sotto ogni chiave perché leggono \texttt{totalWattage()} e quindi dipendono da tutti i tipi di componente (\texttt{EnumSet.allOf(ComponentType.class)}): sono 12 regole rivalutate invece di 40.
 
 %\section{Testing}
 %\subsection{Business Logic Test}
