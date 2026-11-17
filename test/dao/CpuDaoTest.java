@@ -1,4 +1,4 @@
-package dao.jdbc;
+package dao;
 
 import db.DatabaseConnection;
 import db.DatabaseInitializer;
@@ -21,19 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class JdbcCpuDaoTest {
+class CpuDaoTest {
 
     @TempDir
     Path tempDir;
 
     DatabaseConnection db;
-    JdbcCpuDao dao;
+    CpuDao dao;
 
     @BeforeEach
     void setUp() {
         db = DatabaseConnection.forFile(tempDir.resolve("cpu-test.db"));
         DatabaseInitializer.ensureCreated(db);
-        dao = new JdbcCpuDao(db);
+        dao = new CpuDao(db);
     }
 
     /** id = 0: record non ancora salvato. */
@@ -87,7 +87,7 @@ class JdbcCpuDaoTest {
 
         assertTrue(dao.delete(saved.id()));
         assertTrue(dao.findById(saved.id()).isEmpty());
-        assertEquals(0, rows("SELECT count(*) FROM cpu_memory_gen"));   // cancellate in cascata
+        assertEquals(0, rows("SELECT count(*) FROM component_support"));   // cancellate in cascata
         assertFalse(dao.delete(saved.id()));                            // seconda volta: non esiste piu'
     }
 
@@ -105,7 +105,7 @@ class JdbcCpuDaoTest {
 
         assertThrows(PersistenceException.class, () -> dao.insert(invalid));
         assertTrue(dao.findAll().isEmpty());
-        assertEquals(0, rows("SELECT count(*) FROM cpu_memory_gen"));
+        assertEquals(0, rows("SELECT count(*) FROM component_support"));
     }
 
     @Test
@@ -113,8 +113,8 @@ class JdbcCpuDaoTest {
         Cpu saved = dao.insert(newCpu("Ryzen", Set.of(MemoryGen.DDR5)));
         db.write(connection -> {
             try (Statement st = connection.createStatement()) {
-                st.executeUpdate("INSERT INTO build (nome) VALUES ('prova')");
-                st.executeUpdate("INSERT INTO build_cpu (id_build, id_cpu) VALUES (1, " + saved.id() + ")");
+                st.executeUpdate("INSERT INTO build (name) VALUES ('prova')");
+                st.executeUpdate("INSERT INTO build_component (id_build, id_component) VALUES (1, " + saved.id() + ")");
             }
             return null;
         }, "preparazione test");

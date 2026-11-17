@@ -1,6 +1,5 @@
-package dao.jdbc;
+package dao;
 
-import dao.ComponentDao;
 import db.DatabaseConnection;
 import model.attribute.FormFactor;
 import model.attribute.PsuFormFactor;
@@ -12,9 +11,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JdbcCaseDaoTest extends ComponentDaoContractTest<Case> {
+class CaseDaoTest extends ComponentDaoContractTest<Case> {
 
-    @Override ComponentDao<Case> createDao(DatabaseConnection db) { return new JdbcCaseDao(db); }
+    @Override ComponentDao<Case> createDao(DatabaseConnection db) { return new CaseDao(db); }
 
     @Override Case sample(String model) {
         return new Case(0, "NZXT", model, 89.0, 5,
@@ -33,25 +32,22 @@ class JdbcCaseDaoTest extends ComponentDaoContractTest<Case> {
         return new Case(999, "X", "Y", 1.0, 0, Set.of(FormFactor.ATX), Set.of(PsuFormFactor.ATX), 300, 150, 7, 1, Set.of());
     }
 
-    @Override String buildTable() { return "build_pc_case"; }
-    @Override String buildIdColumn() { return "id_pc_case"; }
 
     @Test
-    void setsAreStoredInTheLinkedTables() {
+    void setsAreStoredInComponentSupport() {
         dao.insert(sample("Uno"));
 
-        assertEquals(2, count("SELECT count(*) FROM case_form_factor"));
-        assertEquals(1, count("SELECT count(*) FROM case_psu_form_factor"));
-        assertEquals(2, count("SELECT count(*) FROM case_radiator"));
+        assertEquals(2, count("SELECT count(*) FROM component_support WHERE attribute = 'FORM_FACTOR'"));
+        assertEquals(1, count("SELECT count(*) FROM component_support WHERE attribute = 'PSU_FORM_FACTOR'"));
+        assertEquals(2, count("SELECT count(*) FROM component_support WHERE attribute = 'RADIATOR_MM'"));
     }
 
     @Test
-    void deleteRemovesTheLinkedRows() {
+    void deleteRemovesTheSets() {
         Case saved = dao.insert(sample("Uno"));
         dao.delete(saved.id());
 
-        assertEquals(0, count("SELECT count(*) FROM case_form_factor"));
-        assertEquals(0, count("SELECT count(*) FROM case_radiator"));
+        assertEquals(0, count("SELECT count(*) FROM component_support"));
     }
 
     @Test

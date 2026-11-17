@@ -1,6 +1,5 @@
-package dao.jdbc;
+package dao;
 
-import dao.ComponentDao;
 import db.DatabaseConnection;
 import db.PersistenceException;
 import model.attribute.StorageTech;
@@ -11,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JdbcStorageDaoTest extends ComponentDaoContractTest<Storage> {
+class StorageDaoTest extends ComponentDaoContractTest<Storage> {
 
-    @Override ComponentDao<Storage> createDao(DatabaseConnection db) { return new JdbcStorageDao(db); }
+    @Override ComponentDao<Storage> createDao(DatabaseConnection db) { return new StorageDao(db); }
 
     @Override Storage sample(String model) {
         return new Storage(0, "Samsung", model, 99.0, StorageType.SSD, StorageTech.M2_NVME, 1000);
@@ -25,8 +24,6 @@ class JdbcStorageDaoTest extends ComponentDaoContractTest<Storage> {
 
     @Override Storage missing() { return new Storage(999, "X", "Y", 1.0, StorageType.SSD, StorageTech.SATA, 250); }
 
-    @Override String buildTable() { return "build_storage"; }
-    @Override String buildIdColumn() { return "id_storage"; }
 
     @Test
     void anHddCannotUseAnM2Interface() {

@@ -1,6 +1,5 @@
-package dao.jdbc;
+package dao;
 
-import dao.ComponentDao;
 import db.DatabaseConnection;
 import db.DatabaseInitializer;
 import db.PersistenceException;
@@ -41,11 +40,6 @@ abstract class ComponentDaoContractTest<T extends Component> {
 
     /** Un componente con un id che non esiste nel database. */
     abstract T missing();
-
-    /** Tabella ponte delle build per questo tipo e sua colonna verso il componente (es. build_cpu, id_cpu). */
-    abstract String buildTable();
-
-    abstract String buildIdColumn();
 
     @BeforeEach
     void setUp() {
@@ -104,15 +98,44 @@ abstract class ComponentDaoContractTest<T extends Component> {
         T saved = dao.insert(sample("Uno"));
         db.write(connection -> {
             try (Statement st = connection.createStatement()) {
-                st.executeUpdate("INSERT INTO build (nome) VALUES ('prova')");
-                st.executeUpdate("INSERT INTO " + buildTable() + " (id_build, " + buildIdColumn()
-                        + ") VALUES (1, " + saved.id() + ")");
+                st.executeUpdate("INSERT INTO build (name) VALUES ('prova')");
+                st.executeUpdate("INSERT INTO build_component (id_build, id_component) VALUES (1, "
+                        + saved.id() + ")");
             }
             return null;
         }, "preparazione del test");
 
         assertThrows(PersistenceException.class, () -> dao.delete(saved.id()));
         assertTrue(dao.findById(saved.id()).isPresent());
+    }
+
+    @Test
+    void deleteLeavesNoRowsBehind() {
+        T saved = dao.insert(sample("Uno"));
+        dao.delete(saved.id());
+
+        // la riga del tipo e gli insiemi spariscono in cascata con il componente
+        assertEquals(0, count("SELECT count(*) FROM component"));
+        assertEquals(0, count("SELECT count(*) FROM component_support"));
+    }
+
+    @Test
+    void aDaoDoesNotTouchComponentsOfAnotherType() {
+        // un componente di un altro tipo, scritto direttamente (il DAO sotto test non lo deve vedere)
+        String other = dao instanceof PeripheralsDao ? "GPU" : "PERIPHERAL";
+        db.write(connection -> {
+            try (Statement st = connection.createStatement()) {
+                st.executeUpdate("INSERT INTO component (type, brand, model, price) VALUES ('"
+                        + other + "', 'Altro', 'Tipo', 1.0)");
+            }
+            return null;
+        }, "preparazione del test");
+        int otherId = count("SELECT id_component FROM component");
+
+        assertTrue(dao.findById(otherId).isEmpty());
+        assertTrue(dao.findAll().isEmpty());
+        assertFalse(dao.delete(otherId));
+        assertEquals(1, count("SELECT count(*) FROM component"));
     }
 
     /** Conta le righe con una query libera (per controllare cosa e' finito davvero nel database). */

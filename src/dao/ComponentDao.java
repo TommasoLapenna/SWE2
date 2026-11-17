@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Accesso ai dati di un tipo di componente. Chi usa i DAO dipende solo da queste interfacce.
+ * Accesso ai dati di un tipo di componente: l'unica interfaccia dei DAO. La implementano
+ * CpuDao, GpuDao, ... (uno per tipo), tramite la parte comune {@link AbstractComponentDao}.
  *
  * <p>Convenzione sull'id: un record non ancora salvato ha {@code id == 0}.
  * {@link #insert} ignora l'id ricevuto e restituisce una COPIA con l'id assegnato dal database
@@ -24,7 +25,7 @@ public interface ComponentDao<T extends Component> {
     /** Tutti i componenti di questo tipo, ordinati per id. */
     List<T> findAll();
 
-    /** Salva un nuovo componente (con le sue tabelle collegate) in un'unica transazione. */
+    /** Salva un nuovo componente (con i suoi insiemi) in un'unica transazione. */
     T insert(T component);
 
     /** Aggiorna il componente con quell'id. Restituisce false se non esiste. */

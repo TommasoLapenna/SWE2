@@ -1,13 +1,12 @@
-package dao.jdbc;
+package dao;
 
-import dao.ComponentDao;
 import db.DatabaseConnection;
 import model.attribute.MemoryGen;
 import model.component.Memory;
 
-class JdbcMemoryDaoTest extends ComponentDaoContractTest<Memory> {
+class MemoryDaoTest extends ComponentDaoContractTest<Memory> {
 
-    @Override ComponentDao<Memory> createDao(DatabaseConnection db) { return new JdbcMemoryDao(db); }
+    @Override ComponentDao<Memory> createDao(DatabaseConnection db) { return new MemoryDao(db); }
 
     @Override Memory sample(String model) {
         return new Memory(0, "Corsair", model, 119.0, MemoryGen.DDR5, 2, 16, 6000);
@@ -19,6 +18,4 @@ class JdbcMemoryDaoTest extends ComponentDaoContractTest<Memory> {
 
     @Override Memory missing() { return new Memory(999, "X", "Y", 1.0, MemoryGen.DDR5, 1, 8, 4800); }
 
-    @Override String buildTable() { return "build_memory"; }
-    @Override String buildIdColumn() { return "id_memory"; }
 }

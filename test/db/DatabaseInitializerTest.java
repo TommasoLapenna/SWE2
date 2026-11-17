@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DatabaseInitializerTest {
 
@@ -31,28 +32,46 @@ class DatabaseInitializerTest {
     }
 
     @Test
-    void ensureCreatedBuildsAllTablesAndSeedsLookups() throws SQLException {
+    void ensureCreatedBuildsAllTables() throws SQLException {
         DatabaseConnection db = DatabaseConnection.forFile(tempDir.resolve("test.db"));
         DatabaseInitializer.ensureCreated(db);
 
-        assertEquals(33, count(db, "SELECT count(*) FROM sqlite_master "
+        // component + 9 tabelle dei tipi + component_support + build + build_component
+        assertEquals(13, count(db, "SELECT count(*) FROM sqlite_master "
                 + "WHERE type = 'table' AND name NOT LIKE 'sqlite_%'"));
-        assertEquals(5, count(db, "SELECT count(*) FROM socket"));
-        assertEquals(15, count(db, "SELECT count(*) FROM chipset"));
+        assertEquals(0, count(db, "SELECT count(*) FROM component"));
     }
 
     @Test
-    void ensureCreatedIsIdempotent() throws SQLException {
+    void ensureCreatedIsIdempotentAndKeepsTheData() throws SQLException {
         DatabaseConnection db = DatabaseConnection.forFile(tempDir.resolve("test.db"));
         DatabaseInitializer.ensureCreated(db);
+        execute(db, "INSERT INTO build (name) VALUES ('prova')");
+
         DatabaseInitializer.ensureCreated(db);   // la seconda volta non deve fare nulla ne' fallire
-        assertEquals(5, count(db, "SELECT count(*) FROM socket"));
+
+        assertEquals(1, count(db, "SELECT count(*) FROM build"));
+    }
+
+    @Test
+    void aDatabaseWithTheOldSchemaIsRejectedWithAClearError() throws SQLException {
+        DatabaseConnection db = DatabaseConnection.forFile(tempDir.resolve("old.db"));
+        execute(db, "CREATE TABLE cpu (id_cpu INTEGER PRIMARY KEY)");   // schema vecchio: cpu senza component
+
+        assertThrows(PersistenceException.class, () -> DatabaseInitializer.ensureCreated(db));
+        assertEquals(1, count(db, "SELECT count(*) FROM sqlite_master WHERE type = 'table'"));   // non ha toccato nulla
     }
 
     @Test
     void connectionsHaveForeignKeysEnabled() throws SQLException {
         DatabaseConnection db = DatabaseConnection.forFile(tempDir.resolve("test.db"));
         assertEquals(1, count(db, "PRAGMA foreign_keys"));
+    }
+
+    private static void execute(DatabaseConnection db, String sql) throws SQLException {
+        try (Connection c = db.open(); Statement st = c.createStatement()) {
+            st.executeUpdate(sql);
+        }
     }
 
     private static int count(DatabaseConnection db, String sql) throws SQLException {

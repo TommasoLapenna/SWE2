@@ -1,6 +1,5 @@
-package dao.jdbc;
+package dao;
 
-import dao.ComponentDao;
 import db.DatabaseConnection;
 import model.attribute.CoolerType;
 import model.attribute.Socket;
@@ -12,9 +11,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class JdbcCoolerDaoTest extends ComponentDaoContractTest<Cooler> {
+class CoolerDaoTest extends ComponentDaoContractTest<Cooler> {
 
-    @Override ComponentDao<Cooler> createDao(DatabaseConnection db) { return new JdbcCoolerDao(db); }
+    @Override ComponentDao<Cooler> createDao(DatabaseConnection db) { return new CoolerDao(db); }
 
     @Override Cooler sample(String model) {      // AIR
         return new Cooler(0, "Noctua", model, 109.0, 5, CoolerType.AIR,
@@ -31,8 +30,6 @@ class JdbcCoolerDaoTest extends ComponentDaoContractTest<Cooler> {
         return new Cooler(999, "X", "Y", 1.0, 5, CoolerType.AIR, Set.of(Socket.AM5), 100, 120, 0);
     }
 
-    @Override String buildTable() { return "build_cooler"; }
-    @Override String buildIdColumn() { return "id_cooler"; }
 
     @Test
     void inapplicableDimensionIsStoredAsNullNotZero() {

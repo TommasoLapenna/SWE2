@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Crea il database dagli script SQL se non esiste ancora.
+ * Crea il database dallo script SQL se non esiste ancora.
  *
- * <p>Gli script (db/schema.sql e db/seed_lookups.sql) sono copiati nel classpath da Maven
+ * <p>Lo script (db/schema.sql) e' copiato nel classpath da Maven
  * (vedi la sezione resources del pom.xml). Chiamare {@link #ensureCreated} all'avvio
  * dell'applicazione: se il database c'e' gia' non fa nulla, quindi si puo' chiamare sempre.
  */
 public final class DatabaseInitializer {
 
-    private static final String[] SCRIPTS = {"/db/schema.sql", "/db/seed_lookups.sql"};
+    private static final String SCRIPT = "/db/schema.sql";
 
     private DatabaseInitializer() {
     }
@@ -38,10 +38,8 @@ public final class DatabaseInitializer {
                 }
                 connection.setAutoCommit(false);
                 try (Statement statement = connection.createStatement()) {
-                    for (String script : SCRIPTS) {
-                        for (String sql : splitStatements(read(script))) {
-                            statement.execute(sql);
-                        }
+                    for (String sql : splitStatements(read(SCRIPT))) {
+                        statement.execute(sql);
                     }
                     connection.commit();
                 } catch (SQLException | IOException | RuntimeException e) {
@@ -54,10 +52,25 @@ public final class DatabaseInitializer {
         }
     }
 
+    /**
+     * Vero se lo schema c'e' gia'. Un database creato con lo schema precedente (tabelle cpu, gpu, ...
+     * senza la tabella component) non e' compatibile: va cancellato, e si ricrea al prossimo avvio.
+     */
     private static boolean schemaExists(Connection connection) throws SQLException {
+        if (tableExists(connection, "component")) {
+            return true;
+        }
+        if (tableExists(connection, "cpu")) {
+            throw new PersistenceException("Il database ha uno schema vecchio: cancellare il file e riavviare "
+                    + "(viene ricreato da db/schema.sql)");
+        }
+        return false;
+    }
+
+    private static boolean tableExists(Connection connection, String table) throws SQLException {
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(
-                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'cpu'")) {
+                     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = '" + table + "'")) {
             return rs.next();
         }
     }
@@ -66,7 +79,7 @@ public final class DatabaseInitializer {
         try (InputStream in = DatabaseInitializer.class.getResourceAsStream(resource)) {
             if (in == null) {
                 throw new IOException("Script non trovato nel classpath: " + resource
-                        + " (il pom.xml deve copiare db/schema.sql e db/seed_lookups.sql tra le risorse)");
+                        + " (il pom.xml deve copiare db/schema.sql tra le risorse)");
             }
             return new String(in.readAllBytes(), StandardCharsets.UTF_8);
         }
