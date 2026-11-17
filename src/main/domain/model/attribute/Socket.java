@@ -1,7 +1,7 @@
 package main.domain.model.attribute;
 
 public enum Socket {
-    M4,
+    AM4,
     AM5,
     LGA1200,
     LGA1700,

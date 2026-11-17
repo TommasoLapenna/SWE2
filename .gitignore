@@ -3,6 +3,13 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
+.idea/workspace.xml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/
+.idea/data_source_mapping.xml
+.idea/shelf/
+.idea/httpRequests/
 
 ### Eclipse ###
 .apt_generated
@@ -12,6 +19,7 @@ out/
 .settings
 .springBeans
 .sts4-cache
+
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
@@ -26,5 +34,18 @@ bin/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
+### Maven ###
+target/
+
+### Database generato (si ricrea da db/schema.sql e db/seed_lookups.sql) ###
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+### Archivi ###
+*.zip
+
+### Sistema operativo ###
 .DS_Store
+Thumbs.db
