@@ -1,7 +1,6 @@
 package main.dao.jdbc;
 
 import main.dao.BuildSummary;
-import main.dao.ComponentDao;
 import main.dao.SavedBuild;
 import db.DatabaseConnection;
 import db.PersistenceException;
@@ -32,8 +31,11 @@ import java.util.TreeMap;
  *
  * <p>Il salvataggio e' una transazione: se un componente non esiste, non resta nemmeno la build.
  * Per ricostruire i componenti si usano i DAO dei singoli tipi.
+ *
+ * @throws IllegalArgumentException se il nome e' vuoto o un componente non e' nel catalogo (id 0)
+ * @throws db.PersistenceException  se un componente con quell'id non esiste o il database fallisce
  */
-public class BuildDao implements main.dao.BuildDao {
+public class BuildDao {
 
     private record Link(String table, String idColumn) {
     }
@@ -85,7 +87,6 @@ public class BuildDao implements main.dao.BuildDao {
 
     // ------------------------------------------------------------------ operazioni
 
-    @Override
     public SavedBuild save(String name, List<? extends Component> components) {
         validate(name, components);
         int id = database.write(connection -> {
@@ -100,7 +101,6 @@ public class BuildDao implements main.dao.BuildDao {
         return findById(id).orElseThrow(() -> new PersistenceException("Build appena salvata non trovata: " + id));
     }
 
-    @Override
     public boolean update(int id, String name, List<? extends Component> components) {
         validate(name, components);
         return database.write(connection -> {
@@ -121,7 +121,6 @@ public class BuildDao implements main.dao.BuildDao {
         }, "Aggiornamento della build " + id + " fallito");
     }
 
-    @Override
     public Optional<SavedBuild> findById(int id) {
         Optional<BuildRow> row = database.read(connection -> readRow(connection, id),
                 "Lettura della build " + id + " fallita");
@@ -143,7 +142,6 @@ public class BuildDao implements main.dao.BuildDao {
         return Optional.of(new SavedBuild(id, row.get().name(), row.get().createdAt(), components));
     }
 
-    @Override
     public List<BuildSummary> findAll() {
         return database.read(connection -> {
             List<BuildSummary> result = new ArrayList<>();
@@ -159,7 +157,6 @@ public class BuildDao implements main.dao.BuildDao {
         }, "Lettura delle build fallita");
     }
 
-    @Override
     public boolean delete(int id) {
         // le righe dei ponti spariscono da sole (ON DELETE CASCADE); i componenti restano
         return database.write(connection -> {

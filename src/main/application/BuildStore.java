@@ -1,7 +1,7 @@
 package main.application;
 
 import main.domain.model.BuildView;
-import main.dao.BuildDao;
+import main.dao.jdbc.BuildDao;
 import main.dao.BuildSummary;
 import main.dao.SavedBuild;
 import main.domain.model.component.Component;

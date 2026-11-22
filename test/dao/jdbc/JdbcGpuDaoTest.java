@@ -1,6 +1,6 @@
 package dao.jdbc;
 
-import main.dao.ComponentDao;
+import main.dao.jdbc.ComponentDao;
 import db.DatabaseConnection;
 import db.PersistenceException;
 import main.dao.jdbc.GpuDao;

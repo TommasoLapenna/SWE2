@@ -1,6 +1,6 @@
 package dao.jdbc;
 
-import main.dao.ComponentDao;
+import main.dao.jdbc.ComponentDao;
 import db.DatabaseConnection;
 import main.dao.jdbc.CoolerDao;
 import main.domain.model.attribute.CoolerType;
