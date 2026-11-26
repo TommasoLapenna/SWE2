@@ -1,120 +1,103 @@
 package db;
 
-import main.domain.model.attribute.Chipset;
-import main.domain.model.attribute.ComponentType;
-import main.domain.model.attribute.CoolerType;
-import main.domain.model.attribute.EfficencyRating;
-import main.domain.model.attribute.FormFactor;
-import main.domain.model.attribute.MemoryGen;
-import main.domain.model.attribute.PsuFormFactor;
-import main.domain.model.attribute.Socket;
-import main.domain.model.attribute.StorageTech;
-import main.domain.model.attribute.StorageType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Set;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Gli enum Java non hanno tabelle di lookup: i valori ammessi sono scritti nei CHECK
- * "colonna IN (...)" di db/schema.sql. Questo test controlla che ogni CHECK elenchi ESATTAMENTE
- * i nomi dell'enum corrispondente, nello stesso ordine: chi aggiunge un valore a un enum e si
- * dimentica dello schema (o viceversa) lo scopre qui e non a runtime.
+ * I valori ammessi per gli attributi di tipo enum non sono scritti in CHECK "colonna IN (...)", ma stanno
+ * nelle tabelle di lookup (socket, memory_gen, ...): ogni colonna di tipo enum ha una chiave esterna verso
+ * la sua tabella. Questo test controlla che ogni colonna abbia la chiave esterna giusta e che nessuna
+ * colonna nuova resti senza vincolo. L'allineamento tra enum Java e righe delle tabelle e' in LookupTablesTest.
  */
 class EnumConstraintsTest {
 
-    /** CONSTRAINT nome CHECK (colonna IN ('A', 'B', ...)) */
-    private static final Pattern COLUMN_CHECK = Pattern.compile(
-            "CONSTRAINT\\s+(\\w+)\\s+CHECK\\s*\\(\\s*\\w+\\s+IN\\s*\\(([^)]*)\\)\\s*\\)");
+    @TempDir
+    static Path tempDir;
 
-    /** Dentro ck_component_support: attribute = 'X' AND value IN ('A', 'B', ...) */
-    private static final Pattern SUPPORT_CHECK = Pattern.compile(
-            "attribute\\s*=\\s*'(\\w+)'\\s+AND\\s+value\\s+IN\\s*\\(([^)]*)\\)");
+    static DatabaseConnection db;
 
-    private static final Map<String, Class<? extends Enum<?>>> COLUMN_ENUMS = new LinkedHashMap<>();
-    private static final Map<String, Class<? extends Enum<?>>> SUPPORT_ENUMS = new LinkedHashMap<>();
+    /** Tabelle di lookup create da db/seed_lookups.sql. */
+    private static final Set<String> LOOKUP_TABLES = Set.of(
+            "socket", "memory_gen", "form_factor", "psu_form_factor", "storage_tech",
+            "storage_type", "cooler_type", "efficiency_rating", "chipset");
 
-    static {
-        COLUMN_ENUMS.put("ck_component_type", ComponentType.class);
-        COLUMN_ENUMS.put("ck_cpu_socket", Socket.class);
-        COLUMN_ENUMS.put("ck_memory_gen", MemoryGen.class);
-        COLUMN_ENUMS.put("ck_storage_kind", StorageType.class);
-        COLUMN_ENUMS.put("ck_storage_tech", StorageTech.class);
-        COLUMN_ENUMS.put("ck_mobo_socket", Socket.class);
-        COLUMN_ENUMS.put("ck_mobo_chipset", Chipset.class);
-        COLUMN_ENUMS.put("ck_mobo_form_factor", FormFactor.class);
-        COLUMN_ENUMS.put("ck_mobo_memory_gen", MemoryGen.class);
-        COLUMN_ENUMS.put("ck_psu_efficiency", EfficencyRating.class);
-        COLUMN_ENUMS.put("ck_psu_form_factor", PsuFormFactor.class);
-        COLUMN_ENUMS.put("ck_cooler_kind", CoolerType.class);
-
-        SUPPORT_ENUMS.put("MEMORY_GEN", MemoryGen.class);
-        SUPPORT_ENUMS.put("FORM_FACTOR", FormFactor.class);
-        SUPPORT_ENUMS.put("PSU_FORM_FACTOR", PsuFormFactor.class);
-        SUPPORT_ENUMS.put("SOCKET", Socket.class);
-    }
-
-    private static String schema;
+    /** tabella.colonna -> tabella di lookup a cui deve puntare. */
+    private static final Map<String, String> EXPECTED = new TreeMap<>(Map.ofEntries(
+            Map.entry("cpu.socket", "socket"),
+            Map.entry("cpu_memory_gen.memory_gen", "memory_gen"),
+            Map.entry("memory.memory_gen", "memory_gen"),
+            Map.entry("storage.storage_type", "storage_type"),
+            Map.entry("storage.storage_tech", "storage_tech"),
+            Map.entry("motherboard.socket", "socket"),
+            Map.entry("motherboard.chipset", "chipset"),
+            Map.entry("motherboard.form_factor", "form_factor"),
+            Map.entry("motherboard.memory_gen", "memory_gen"),
+            Map.entry("power_supply.efficiency_rating", "efficiency_rating"),
+            Map.entry("power_supply.form_factor", "psu_form_factor"),
+            Map.entry("case_form_factor.form_factor", "form_factor"),
+            Map.entry("case_psu_form_factor.psu_form_factor", "psu_form_factor"),
+            Map.entry("cooler.cooler_type", "cooler_type"),
+            Map.entry("cooler_socket.socket", "socket")));
 
     @BeforeAll
-    static void readSchema() throws IOException {
-        try (InputStream in = EnumConstraintsTest.class.getResourceAsStream("/db/schema.sql")) {
-            assertNotNull(in, "db/schema.sql non e' nel classpath");
-            schema = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+    static void createDatabase() {
+        db = DatabaseConnection.forFile(tempDir.resolve("enum-constraints.db"));
+        DatabaseInitializer.ensureCreated(db);
+    }
+
+    @Test
+    void everyEnumColumnReferencesItsLookupTable() throws SQLException {
+        // se qualcuno aggiunge una colonna enum (o toglie una chiave esterna), le due mappe non coincidono piu'
+        assertEquals(EXPECTED, foreignKeysToLookupTables());
+    }
+
+    @Test
+    void aValueThatIsNotInTheEnumIsRejected() {
+        assertThrows(SQLException.class, () -> {
+            try (Connection c = db.open(); Statement st = c.createStatement()) {
+                st.executeUpdate("INSERT INTO memory (brand, model, price, memory_gen, sticks_qty, stick_capacity_gb, frequency_mhz) "
+                        + "VALUES ('X', 'Y', 10.0, 'DDR9', 2, 8, 3200)");   // DDR9 non esiste in MemoryGen
+            }
+        });
+    }
+
+    /** Legge le chiavi esterne di tutte le tabelle e tiene solo quelle che puntano a una tabella di lookup. */
+    private static Map<String, String> foreignKeysToLookupTables() throws SQLException {
+        Map<String, String> found = new TreeMap<>();
+        try (Connection c = db.open(); Statement st = c.createStatement()) {
+            List<String> tables = new ArrayList<>();
+            try (ResultSet rs = st.executeQuery(
+                    "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")) {
+                while (rs.next()) {
+                    tables.add(rs.getString(1));
+                }
+            }
+            for (String table : tables) {
+                try (ResultSet rs = st.executeQuery("PRAGMA foreign_key_list(" + table + ")")) {
+                    while (rs.next()) {
+                        String parent = rs.getString("table");
+                        if (LOOKUP_TABLES.contains(parent)) {
+                            found.put(table + "." + rs.getString("from"), parent);
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    @Test
-    void columnChecksListExactlyTheEnumNames() {
-        Map<String, List<String>> found = find(COLUMN_CHECK);
-
-        COLUMN_ENUMS.forEach((constraint, enumClass) ->
-                assertEquals(namesOf(enumClass), found.get(constraint), constraint + " <-> " + enumClass.getSimpleName()));
-    }
-
-    @Test
-    void componentSupportCheckListsExactlyTheEnumNames() {
-        Map<String, List<String>> found = find(SUPPORT_CHECK);
-
-        SUPPORT_ENUMS.forEach((attribute, enumClass) ->
-                assertEquals(namesOf(enumClass), found.get(attribute), attribute + " <-> " + enumClass.getSimpleName()));
-    }
-
-    /** Un nuovo CHECK su valori testuali va aggiunto alle mappe qui sopra: nessuno resta senza controllo. */
-    @Test
-    void everyTextListInTheSchemaIsCovered() {
-        Map<String, List<String>> columns = find(COLUMN_CHECK);
-        columns.values().removeIf(values -> values.stream().allMatch(v -> v.matches("\\d+")));   // booleani: IN (0, 1)
-
-        assertEquals(COLUMN_ENUMS.keySet(), columns.keySet());
-        assertEquals(SUPPORT_ENUMS.keySet(), find(SUPPORT_CHECK).keySet());
-    }
-
-    private static Map<String, List<String>> find(Pattern pattern) {
-        Map<String, List<String>> result = new LinkedHashMap<>();
-        Matcher matcher = pattern.matcher(schema);
-        while (matcher.find()) {
-            List<String> values = Arrays.stream(matcher.group(2).split(","))
-                    .map(v -> v.trim().replace("'", ""))
-                    .toList();
-            assertTrue(result.put(matcher.group(1), values) == null, "duplicato nello schema: " + matcher.group(1));
-        }
-        return result;
-    }
-
-    private static List<String> namesOf(Class<? extends Enum<?>> enumClass) {
-        return Arrays.stream(enumClass.getEnumConstants()).map(Enum::name).toList();
+        return found;
     }
 }

@@ -172,7 +172,7 @@
     Samuele Baldi\\[1.2em]
     \emph{N\textsuperscript{o} matricola:}\\
     7112937\\
-    7777777\\
+    7110826\\
     7116707
   \end{flushleft}
 \end{minipage}
@@ -1340,11 +1340,241 @@ Quando si va ad aggiungere/rimuovere/rimpiazzare un componente, vengono prese in
 \end{verbatim}
 Le ultime tre regole compaiono sotto ogni chiave perché leggono \texttt{totalWattage()} e quindi dipendono da tutti i tipi di componente (\texttt{EnumSet.allOf(ComponentType.class)}): sono 12 regole rivalutate invece di 40.
 
-%\section{Testing}
-%\subsection{Business Logic Test}
-%\subsubsection{LoginControllerTest}
+\section{Testing}
+\sloppy % nomi dei metodi lunghi: evita che escano dal margine
 
-%\subsection{Domain Model Test}
-%\subsection{ORM Test}
+I test sono scritti con \textbf{JUnit 5}. Si lanciano da Maven (\texttt{mvn test}) o, più comodamente,
+da IntelliJ. Stanno tutti nella cartella \texttt{test/}, fuori dal codice sorgente, e i package ricalcano
+i layer dell'applicazione (figura~\ref{fig:test-organizzazione}): chi cerca i test del dominio sa già
+dove guardare.
 
+\begin{figure}[H]
+    \centering
+    \IfFileExists{diagrammi/test-organizzazione.png}{
+        \includegraphics[width=0.45\linewidth]{diagrammi/test-organizzazione.png}
+    }{\fbox{\parbox{0.45\linewidth}{\centering\vspace{2cm}Screenshot della cartella \texttt{test/}\vspace{2cm}}}}
+    \caption{Organizzazione dei test}
+    \label{fig:test-organizzazione}
+\end{figure}
+
+\subsection{Strategia di testing}
+Coprire tutto non era l'obiettivo. Le regole di compatibilità sono 40, e provarle in ogni combinazione
+avrebbe significato scrivere centinaia di test quasi identici, con poco guadagno reale.
+
+Abbiamo quindi scelto i casi a campione, partendo da due domande. La prima riguarda i casi d'uso: per
+\emph{Aggiungi componente}, \emph{Rimuovi componente}, \emph{Annulla modifica}, \emph{Ripristina modifica},
+\emph{Consulta violazioni} e \emph{Visualizza prezzo} c'è almeno un test che ne controlla il flusso
+principale o quelli alternativi. La seconda riguarda i pattern. Observer, Memento, Specification e Facade
+hanno ciascuno almeno un test che li mette alla prova.
+
+Sulle regole ci siamo limitati a un caso per categoria: piattaforma, regole con guardia, alimentazione,
+cardinalità. Un dettaglio pratico. Le violazioni si cercano per \emph{nome} della regola
+(\texttt{SOCKET-MISMATCH}, per esempio), mai per il testo del messaggio: se domani qualcuno riformula un
+messaggio, i test continuano a passare.
+
+Quanto alla tipologia, i test di unità prendono una classe e la isolano dal resto --- è il caso di
+\texttt{PcBuilderTest}, \texttt{SpecificationTest} e \texttt{BuildRuleTest}. Quelli di integrazione
+guardano invece più classi al lavoro insieme: il motore di compatibilità con le regole vere, la Facade
+\texttt{PcBuildSession}, i DAO collegati al database.
+
+Il dominio si testa tutto in memoria. Niente database, niente mock. La persistenza no: lì serve un
+database SQLite vero, e ogni test se ne crea uno nuovo in una cartella temporanea.
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|l|}
+\hline
+\textbf{Package} & \textbf{Classi di test} & \textbf{Tipo} \\
+\hline
+\texttt{build}       & \texttt{PcBuilderTest}                                   & Unità \\
+\texttt{rule}        & \texttt{SpecificationTest}, \texttt{BuildRuleTest}       & Unità \\
+\texttt{rule}        & \texttt{CompatibilityCheckerTest}                        & Integrazione \\
+\texttt{application} & \texttt{PcBuildSessionTest}                              & Integrazione (Facade) \\
+\texttt{application} & \texttt{BuildStoreTest}                                  & Integrazione con il DB \\
+\texttt{dao.jdbc}    & \texttt{ComponentDaoContractTest} e sottoclassi, \texttt{BuildDaoTest} & Integrazione con il DB \\
+\texttt{db}          & \texttt{DatabaseInitializerTest}, \texttt{LookupTablesTest}, \texttt{EnumConstraintsTest} & Schema del DB \\
+\hline
+\end{tabularx}
+\caption{Classi di test e relativa tipologia}
+\label{tab:test-classi}
+\end{table}
+
+\subsection{Testing del Domain}
+
+\subsubsection{PcBuilderTest}
+Qui si mettono alla prova i metodi di \texttt{PcBuilder}. Si parte dai totali.
+\texttt{emptyBuildHasZeroTotals} controlla che una build vuota abbia prezzo e consumo pari a zero, mentre
+\texttt{totalPriceAndWattageAreTheSumOfTheComponents} verifica che, aggiungendo componenti, i totali
+coincidano con la loro somma (\emph{Visualizza prezzo}). C'è poi un caso meno ovvio:
+\texttt{componentsOfTheSameTypeAreAllCounted} aggiunge due componenti dello stesso tipo e si assicura che
+vengano contati entrambi. Con una struttura come \texttt{Map<ComponentType, List<Component>>} è proprio
+lì che un errore passerebbe inosservato.
+
+L'Observer ha un test dedicato, \texttt{observersAreNotifiedOfAddAndRemove}. Aggiunta e rimozione mandano
+agli osservatori gli eventi \texttt{ADDED} e \texttt{REMOVED}; una rimozione che fallisce, invece, resta
+muta. L'ultimo test riguarda il Memento:
+\texttt{restoringAMementoNotCreatedByTheBuilderIsRejected} passa a \texttt{restoreMemento} un memento
+estraneo e si aspetta un rifiuto.
+
+\subsubsection{SpecificationTest e BuildRuleTest}
+Tutte le regole con guardia poggiano sull'operatore \texttt{implies}, e \texttt{SpecificationTest} ne
+controlla la tavola di verità. Il risultato è falso in un solo caso: guardia vera, condizione falsa. Per
+non tirare in ballo le regole reali bastano due specifiche banali (una sempre vera, l'altra sempre
+falsa).
+
+\texttt{BuildRuleTest} è più piccolo. Una regola che dipende solo dalla CPU ma cita \texttt{\{GPU\}} nel
+messaggio deve essere respinta subito, nel momento stesso in cui la si crea.
+
+\subsubsection{CompatibilityCheckerTest}
+Il motore di compatibilità viene provato con le regole vere di \texttt{DefaultRules}, ed è questa classe
+a coprire il caso d'uso \emph{Consulta violazioni}.
+
+Il primo controllo è il più intuitivo. CPU e scheda madre con socket diversi devono generare
+\texttt{SOCKET-MISMATCH} con severità \texttt{ERROR} (\texttt{differentSocketsProduceAnError}). Più
+sottile è \texttt{guardedRuleIsNotCheckedWhenAComponentIsMissing}: con la sola CPU nella build la regola
+sul socket non deve scattare, perché manca uno dei due termini del confronto --- l'assenza della scheda
+madre la segnala già un'altra regola, \texttt{MISSING-MOBO}.
+
+Sul fronte alimentazione, \texttt{psuWithoutTheRecommendedHeadroomProducesAWarning} usa un alimentatore
+che regge il carico ma non ha il 20\% di margine. Il risultato atteso è \texttt{PSU-LOW-HEADROOM}, con
+severità \texttt{WARNING} e non \texttt{ERROR}.
+
+Due test riguardano le modifiche alla build. In
+\texttt{violationDisappearsWhenTheIncompatibleComponentIsRemoved} si toglie il componente incompatibile e
+la violazione deve sparire: è la prova che la rivalutazione incrementale via Observer funziona.
+\texttt{aSecondCpuIsAddedButReportedAsAnError} documenta invece una scelta di progetto. La seconda CPU
+entra nella build (il caso d'uso \emph{Aggiungi componente} non la blocca) ma compare subito
+\texttt{TOO-MANY-CPUS}.
+
+\begin{lstlisting}[style=intellijlight, caption={Test di una regola con guardia in CompatibilityCheckerTest}, label={lst:test-guardia}]
+@Test
+void guardedRuleIsNotCheckedWhenAComponentIsMissing() {
+    build.addComponent(newAm5Cpu());
+
+    assertTrue(violation("SOCKET-MISMATCH").isEmpty());   // senza scheda madre la guardia e' falsa
+    assertTrue(violation("MISSING-MOBO").isPresent());    // la mancanza la segnala un'altra regola
+}
+\end{lstlisting}
+
+\subsection{Testing dell'Application}
+
+\subsubsection{PcBuildSessionTest}
+\texttt{PcBuildSession} è la Facade, il punto da cui passa l'interfaccia. La testiamo come la userebbe
+lei.
+
+\texttt{undoRemovesTheLastAddAndRedoBringsItBack} aggiunge un componente, fa undo e poi redo: il
+componente sparisce e ricompare (\emph{Annulla modifica}, \emph{Ripristina modifica}). Senza cronologia,
+invece, entrambe le operazioni non fanno nulla e restituiscono \texttt{false}. Lo verifica
+\texttt{undoAndRedoWithoutHistoryReturnFalse}, che copre il flusso alternativo degli stessi due casi
+d'uso. Stesso discorso per \emph{Rimuovi componente}: togliere un pezzo che non c'è fallisce, e nessuno
+snapshot viene salvato (\texttt{removingAComponentThatIsNotInTheBuildReturnsFalse}).
+
+Il test più interessante è \texttt{violationsAreRecomputedAfterUndo}, perché fa lavorare insieme Memento
+e Observer. Dopo un undo, le violazioni si ricalcolano sullo stato ripristinato. Chiude la classe
+\texttt{aCompleteAndCompatibleBuildHasNoErrors}, con una build completa e corretta --- CPU, scheda
+madre, RAM, SSD, case, alimentatore --- in cui non deve comparire nessun errore.
+
+\begin{lstlisting}[style=intellijlight, caption={Undo e ricalcolo delle violazioni in PcBuildSessionTest}, label={lst:test-undo}]
+@Test
+void violationsAreRecomputedAfterUndo() {
+    session.add(cpu);
+    session.add(lga1700Board);
+    assertTrue(hasViolation("SOCKET-MISMATCH"));
+
+    session.undo();
+
+    assertFalse(hasViolation("SOCKET-MISMATCH"));
+}
+\end{lstlisting}
+
+\subsubsection{BuildStoreTest}
+Salvataggio delle build, con il \texttt{PcBuilder} vero di mezzo. Una build salvata e poi ricaricata
+deve tornare identica, con gli stessi componenti e lo stesso consumo
+(\texttt{aSavedBuildCanBeRebuiltExactly}). Gli altri test controllano aggiornamento, elenco e
+cancellazione, e che un componente estraneo al catalogo venga rifiutato.
+
+\subsection{Testing dell'ORM}
+Ogni test della persistenza si costruisce il proprio database SQLite in una cartella temporanea
+(\texttt{@TempDir}), inizializzato con \texttt{schema.sql} e \texttt{seed\_lookups.sql}. Si parte sempre
+da zero. Nessun test eredita i dati di un altro, e una fase di teardown diventa superflua.
+
+Per i DAO dei componenti abbiamo raccolto le verifiche comuni in una classe astratta,
+\texttt{ComponentDaoContractTest}. Dentro ci sono inserimento (con assegnazione dell'id), ricerca per id,
+elenco ordinato, modifica e cancellazione, più un controllo sul vincolo che impedisce di eliminare un
+componente usato in una build salvata. Sono le stesse operazioni che l'operatore compie sul catalogo nei
+casi d'uso \emph{Aggiungi al catalogo}, \emph{Modifica componente}, \emph{Rimuovi dal catalogo} e
+\emph{Consulta catalogo}.
+
+Ogni DAO ha la sua sottoclasse --- \texttt{CaseDaoTest}, per dirne una --- che fornisce un componente di
+esempio e, se serve, qualche test in più: nel caso del case, le tabelle collegate che memorizzano form
+factor supportati e radiatori. Un DAO nuovo eredita tutto il resto senza scrivere una riga.
+
+\begin{lstlisting}[style=intellijlight, caption={Test comune a tutti i DAO in ComponentDaoContractTest}, label={lst:test-dao}]
+@Test
+void insertAssignsIdAndFindByIdReturnsTheSameComponent() {
+    T saved = dao.insert(sample("Uno"));
+
+    assertTrue(saved.id() > 0);
+    assertEquals(saved, dao.findById(saved.id()).orElseThrow());
+}
+\end{lstlisting}
+
+\texttt{JdbcCpuDaoTest} ha un controllo in più. Se un inserimento non è valido, la transazione va
+annullata per intero, senza righe a metà nelle tabelle collegate (\texttt{failedInsertLeavesNothingBehind}).
+In \texttt{BuildDaoTest} i casi sono parecchi; tre dicono molto su come lavora il DAO. Lo stesso
+componente inserito due volte viene salvato una volta sola, con quantità due. I totali si calcolano, non
+si memorizzano. E un componente inesistente fa saltare l'intero salvataggio.
+
+Resta il package \texttt{db}, che guarda allo schema. \texttt{DatabaseInitializerTest} verifica che
+l'inizializzazione crei tutte le tabelle, che rilanciarla non cambi nulla e che le chiavi esterne siano
+attive. \texttt{LookupTablesTest} confronta gli enum Java con le righe delle tabelle di lookup: basta un
+valore rinominato da una parte sola perché fallisca. \texttt{EnumConstraintsTest} controlla invece che ogni
+colonna di tipo enum abbia la sua chiave esterna verso la tabella di lookup giusta, e che un valore
+inesistente (una memoria \texttt{DDR9}, per dire) venga rifiutato dal database.
+
+\subsection{Tracciabilità tra use case e test}
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabularx}{\textwidth}{|l|>{\raggedright\arraybackslash}X|}
+\hline
+\textbf{Use case} & \textbf{Test} \\
+\hline
+Aggiungi componente & \texttt{CompatibilityCheckerTest.}\allowbreak\texttt{aSecondCpuIsAddedButReportedAsAnError} \\
+\hline
+Rimuovi componente  & \texttt{PcBuildSessionTest.}\allowbreak\texttt{removingAComponentThatIsNotInTheBuildReturnsFalse},
+                      \texttt{CompatibilityCheckerTest.}\allowbreak\texttt{violationDisappearsWhenTheIncompatibleComponentIsRemoved} \\
+\hline
+Annulla modifica    & \texttt{PcBuildSessionTest.}\allowbreak\texttt{undoRemovesTheLastAddAndRedoBringsItBack},
+                      \texttt{undoAndRedoWithoutHistoryReturnFalse}, \texttt{violationsAreRecomputedAfterUndo} \\
+\hline
+Ripristina modifica & \texttt{PcBuildSessionTest.}\allowbreak\texttt{undoRemovesTheLastAddAndRedoBringsItBack},
+                      \texttt{undoAndRedoWithoutHistoryReturnFalse} \\
+\hline
+Consulta violazioni & \texttt{CompatibilityCheckerTest} (tutti i test) \\
+\hline
+Visualizza prezzo   & \texttt{PcBuilderTest.}\allowbreak\texttt{totalPriceAndWattageAreTheSumOfTheComponents},
+                      \texttt{componentsOfTheSameTypeAreAllCounted} \\
+\hline
+Gestione catalogo   & \texttt{ComponentDaoContractTest} e sottoclassi (aggiunta, modifica,
+                      rimozione e consultazione dei componenti) \\
+\hline
+\end{tabularx}
+\caption{Use case e test che li verificano}
+\label{tab:test-uc}
+\end{table}
+
+\subsection{Esiti dei test}
+La figura~\ref{fig:test-esiti} mostra il risultato dell'intera suite, lanciata da IntelliJ.
+
+\begin{figure}[H]
+    \centering
+    \IfFileExists{diagrammi/test-esiti.png}{
+        \includegraphics[width=0.9\linewidth]{diagrammi/test-esiti.png}
+    }{\fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}Screenshot dell'esecuzione dei test in IntelliJ\vspace{2cm}}}}
+    \caption{Esiti dei test}
+    \label{fig:test-esiti}
+\end{figure}
+
+\fussy
 \end{document}
