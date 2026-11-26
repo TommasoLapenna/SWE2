@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  *       ({@link #insertChildren}, {@link #deleteChildren}).</li>
  * </ul>
  */
-public abstract class ComponentDao<T extends Component> implements main.dao.ComponentDao<T> {
+public abstract class ComponentDao<T extends Component> {
 
     protected final DatabaseConnection database;
     private final String table;
@@ -92,7 +92,6 @@ public abstract class ComponentDao<T extends Component> implements main.dao.Comp
 
     // ------------------------------------------------------------------ operazioni
 
-    @Override
     public Optional<T> findById(int id) {
         return database.read(connection -> {
             try (PreparedStatement ps = connection.prepareStatement(selectSql + " WHERE " + idColumn + " = ?")) {
@@ -104,7 +103,6 @@ public abstract class ComponentDao<T extends Component> implements main.dao.Comp
         }, "Lettura da " + table + " (id " + id + ") fallita");
     }
 
-    @Override
     public List<T> findAll() {
         return database.read(connection -> {
             List<T> result = new ArrayList<>();
@@ -118,7 +116,6 @@ public abstract class ComponentDao<T extends Component> implements main.dao.Comp
         }, "Lettura di " + table + " fallita");
     }
 
-    @Override
     public T insert(T component) {
         validate(component);
         return database.write(connection -> {
@@ -132,7 +129,6 @@ public abstract class ComponentDao<T extends Component> implements main.dao.Comp
         }, "Inserimento in " + table + " fallito: " + component.name());
     }
 
-    @Override
     public boolean update(T component) {
         validate(component);
         return database.write(connection -> {
@@ -151,7 +147,6 @@ public abstract class ComponentDao<T extends Component> implements main.dao.Comp
         }, "Aggiornamento di " + table + " (id " + component.id() + ") fallito");
     }
 
-    @Override
     public boolean delete(int id) {
         // Le tabelle collegate si svuotano da sole (ON DELETE CASCADE); se il componente e' in una
         // build il database rifiuta la cancellazione (ON DELETE RESTRICT).

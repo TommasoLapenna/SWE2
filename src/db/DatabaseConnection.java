@@ -25,7 +25,7 @@ import java.util.Properties;
 public final class DatabaseConnection {
 
     /** File del database, relativo alla cartella da cui parte l'app (la radice del progetto). */
-    public static final String DEFAULT_FILE = "db/pcconfigurator.db";
+    public static final String DEFAULT_FILE = "db/database.sqlite";
 
     private static DatabaseConnection instance;
 
